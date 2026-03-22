@@ -1,10 +1,16 @@
 import { neon } from "@neondatabase/serverless";
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL environment variable is not set");
+function createSqlClient() {
+  const url = process.env.DATABASE_URL;
+  if (!url) {
+    throw new Error(
+      "DATABASE_URL is not configured. Add it to your Vercel project environment variables."
+    );
+  }
+  return neon(url);
 }
 
-const sql = neon(process.env.DATABASE_URL);
+const sql = createSqlClient();
 
 export default sql;
 
