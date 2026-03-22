@@ -31,7 +31,7 @@ async function seed() {
       amount              NUMERIC(15, 2)  NOT NULL,
       sender              VARCHAR(150)    NOT NULL,
       receiver            VARCHAR(150)    NOT NULL,
-      transaction_date    TIMESTAMPTZ     NOT NULL,
+      transaction_date    TIMESTAMPTZ,
       bank                VARCHAR(100),
       reference_number    VARCHAR(120),
       status              VARCHAR(20)     DEFAULT 'SUCCESSFUL',

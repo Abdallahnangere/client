@@ -4,6 +4,9 @@
 -- Paste into Neon SQL Editor and run
 -- ============================================================
 
+-- Allow NULL dates (calculator receipts and some OPay screens have no date)
+ALTER TABLE transactions ALTER COLUMN transaction_date DROP NOT NULL;
+
 INSERT INTO transactions
     (person_id, type, amount, sender, receiver, transaction_date, bank, reference_number, status, note)
 VALUES
