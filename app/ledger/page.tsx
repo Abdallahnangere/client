@@ -22,8 +22,9 @@ export default async function LedgerPage() {
   // Group by month
   const grouped: Record<string, typeof allTx> = {};
   for (const tx of allTx) {
-    const d = new Date(tx.transaction_date);
-    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+    const key = tx.transaction_date
+      ? (() => { const d = new Date(tx.transaction_date); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`; })()
+      : "undated";
     if (!grouped[key]) grouped[key] = [];
     grouped[key].push(tx);
   }
@@ -31,6 +32,7 @@ export default async function LedgerPage() {
   const months = Object.keys(grouped).sort().reverse();
 
   const monthLabel = (key: string) => {
+    if (key === "undated") return "Date Unknown";
     const [year, month] = key.split("-");
     return new Date(parseInt(year), parseInt(month) - 1, 1).toLocaleDateString("en-GB", {
       month: "long",

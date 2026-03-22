@@ -15,7 +15,8 @@ export function formatCurrency(amount: string | number): string {
   }).format(num);
 }
 
-export function formatDate(date: string | Date, opts?: Intl.DateTimeFormatOptions): string {
+export function formatDate(date: string | Date | null | undefined, opts?: Intl.DateTimeFormatOptions): string {
+  if (date == null) return "—";
   const d = typeof date === "string" ? new Date(date) : date;
   return d.toLocaleDateString("en-GB", {
     day: "2-digit",
@@ -25,7 +26,8 @@ export function formatDate(date: string | Date, opts?: Intl.DateTimeFormatOption
   });
 }
 
-export function formatDateTime(date: string | Date): string {
+export function formatDateTime(date: string | Date | null | undefined): string {
+  if (date == null) return "—";
   const d = typeof date === "string" ? new Date(date) : date;
   return d.toLocaleDateString("en-GB", {
     day: "2-digit",
