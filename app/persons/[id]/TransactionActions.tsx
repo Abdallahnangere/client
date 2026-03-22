@@ -159,7 +159,7 @@ export default function TransactionActions({ personId, personName }: Props) {
 
             {/* Ledger logic hint */}
             <div
-              className="mx-6 mt-4 p-3 rounded-[2px] text-xs"
+              className="mx-6 mt-4 p-3 rounded-lg text-xs"
               style={{
                 background: isCredit ? "rgba(46,204,142,0.06)" : "rgba(224,85,85,0.06)",
                 border: `1px solid ${isCredit ? "rgba(46,204,142,0.15)" : "rgba(224,85,85,0.15)"}`,
@@ -175,7 +175,7 @@ export default function TransactionActions({ personId, personName }: Props) {
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               {error && (
                 <div
-                  className="p-3 text-sm rounded-[2px]"
+                  className="p-3 text-sm rounded-lg"
                   style={{
                     background: "rgba(224,85,85,0.08)",
                     border: "1px solid rgba(224,85,85,0.2)",

@@ -93,13 +93,12 @@ export default function Sidebar() {
         <div className="px-6 pt-8 pb-6" style={{ borderBottom: "1px solid #152035" }}>
           <div className="flex items-center gap-3">
             <div
-              className="w-8 h-8 flex items-center justify-center"
+              className="w-8 h-8 rounded-lg flex items-center justify-center"
               style={{
                 background: "linear-gradient(135deg, #B87820 0%, #D4A848 100%)",
-                clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)",
               }}
             >
-              <span className="text-[10px] font-bold" style={{ color: "#0A0E1A" }}>CM</span>
+              <span className="text-[10px] font-bold tracking-wide" style={{ color: "#040810" }}>CM</span>
             </div>
             <div>
               <p
@@ -129,7 +128,7 @@ export default function Sidebar() {
               href={item.href}
               onClick={() => setMobileOpen(false)}
               className={cn(
-                "flex items-center gap-3 px-3 py-2.5 rounded-[2px] text-sm transition-all duration-150",
+                  "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-150",
                 isActive(item.href)
                   ? "bg-[#0D1A2E] border border-[#1E3050]"
                   : "hover:bg-[#0A1524] border border-transparent"

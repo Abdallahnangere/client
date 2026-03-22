@@ -19,18 +19,7 @@ export default async function DashboardPage() {
     <div className="min-h-screen p-6 lg:p-10">
       {/* Header */}
       <div className="mb-10">
-        <div className="flex items-center gap-2 mb-2">
-          <div
-            className="w-4 h-px"
-            style={{ background: "linear-gradient(90deg, #C8963C, transparent)" }}
-          />
-          <span
-            className="text-[10px] font-semibold tracking-widest uppercase"
-            style={{ color: "#C8963C" }}
-          >
-            Fund Overview
-          </span>
-        </div>
+        <div className="eyebrow">Fund Overview</div>
         <h1
           className="font-display text-4xl font-light"
           style={{ color: "#E8EDF8", letterSpacing: "0.02em" }}
@@ -45,14 +34,7 @@ export default async function DashboardPage() {
       {/* Top stat strip */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
         {/* Total Inflow */}
-        <div
-          className="card p-4 relative overflow-hidden"
-          style={{ borderColor: "rgba(46,204,142,0.15)", boxShadow: "0 0 40px rgba(46,204,142,0.04)" }}
-        >
-          <div
-            className="absolute top-0 left-0 right-0 h-px"
-            style={{ background: "linear-gradient(90deg, transparent, rgba(46,204,142,0.4), transparent)" }}
-          />
+        <div className="stat-card stat-card-green">
           <p className="text-[10px] font-semibold tracking-widest uppercase mb-2" style={{ color: "#3D5070" }}>
             Total Inflow
           </p>
@@ -63,14 +45,7 @@ export default async function DashboardPage() {
         </div>
 
         {/* Total Outflow */}
-        <div
-          className="card p-4 relative overflow-hidden"
-          style={{ borderColor: "rgba(224,85,85,0.15)", boxShadow: "0 0 40px rgba(224,85,85,0.04)" }}
-        >
-          <div
-            className="absolute top-0 left-0 right-0 h-px"
-            style={{ background: "linear-gradient(90deg, transparent, rgba(224,85,85,0.4), transparent)" }}
-          />
+        <div className="stat-card stat-card-red">
           <p className="text-[10px] font-semibold tracking-widest uppercase mb-2" style={{ color: "#3D5070" }}>
             Total Outflow
           </p>
@@ -81,21 +56,7 @@ export default async function DashboardPage() {
         </div>
 
         {/* Net Position */}
-        <div
-          className="card p-4 relative overflow-hidden"
-          style={{
-            borderColor: isNet ? "rgba(46,204,142,0.15)" : "rgba(224,85,85,0.15)",
-            boxShadow: isNet ? "0 0 40px rgba(46,204,142,0.04)" : "0 0 40px rgba(224,85,85,0.04)",
-          }}
-        >
-          <div
-            className="absolute top-0 left-0 right-0 h-px"
-            style={{
-              background: isNet
-                ? "linear-gradient(90deg, transparent, rgba(46,204,142,0.4), transparent)"
-                : "linear-gradient(90deg, transparent, rgba(224,85,85,0.4), transparent)",
-            }}
-          />
+        <div className={`stat-card ${isNet ? "stat-card-green" : "stat-card-red"}`}>
           <p className="text-[10px] font-semibold tracking-widest uppercase mb-2" style={{ color: "#3D5070" }}>
             Net Position
           </p>
@@ -111,14 +72,7 @@ export default async function DashboardPage() {
         </div>
 
         {/* Clients */}
-        <div
-          className="card p-4 relative overflow-hidden"
-          style={{ borderColor: "rgba(200,150,60,0.2)", boxShadow: "0 0 40px rgba(200,150,60,0.06)" }}
-        >
-          <div
-            className="absolute top-0 left-0 right-0 h-px"
-            style={{ background: "linear-gradient(90deg, transparent, rgba(200,150,60,0.5), transparent)" }}
-          />
+        <div className="stat-card stat-card-gold">
           <p className="text-[10px] font-semibold tracking-widest uppercase mb-2" style={{ color: "#3D5070" }}>
             Active Clients
           </p>
@@ -244,7 +198,7 @@ export default async function DashboardPage() {
                   <Link
                     key={s.person_id}
                     href={`/persons/${s.person_id}`}
-                    className="block p-3 rounded-[2px] transition-colors hover:bg-[#0D1A2E]"
+                    className="block p-3 rounded-xl transition-colors hover:bg-[#0D1A2E]"
                     style={{ border: "1px solid #152035" }}
                   >
                     <div className="flex items-start justify-between gap-2 mb-2">
@@ -297,7 +251,7 @@ export default async function DashboardPage() {
             )}
             <Link
               href="/persons/new"
-              className="flex items-center gap-2 p-3 rounded-[2px] w-full text-left transition-colors hover:bg-[#0A1524]"
+              className="flex items-center gap-2 p-3 rounded-xl w-full text-left transition-colors hover:bg-[#0A1524]"
               style={{ border: "1px dashed #1E3050" }}
             >
               <span style={{ color: "#3D5070", fontSize: "18px", lineHeight: 1 }}>+</span>

@@ -18,18 +18,7 @@ export default async function PersonsPage() {
       {/* Header */}
       <div className="flex items-start justify-between gap-4 mb-10">
         <div>
-          <div className="flex items-center gap-2 mb-2">
-            <div
-              className="w-4 h-px"
-              style={{ background: "linear-gradient(90deg, #C8963C, transparent)" }}
-            />
-            <span
-              className="text-[10px] font-semibold tracking-widest uppercase"
-              style={{ color: "#C8963C" }}
-            >
-              Fund Registry
-            </span>
-          </div>
+          <div className="eyebrow">Fund Registry</div>
           <h1
             className="font-display text-4xl font-light"
             style={{ color: "#E8EDF8", letterSpacing: "0.02em" }}
@@ -99,12 +88,11 @@ export default async function PersonsPage() {
                   {/* Avatar + Info */}
                   <div className="flex items-start gap-4 flex-1">
                     <div
-                      className="w-10 h-10 flex-shrink-0 flex items-center justify-center text-sm font-semibold"
+                      className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center text-sm font-semibold"
                       style={{
                         background: "#0D1A2E",
                         border: "1px solid #1E3050",
                         color: "#C8963C",
-                        clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)",
                       }}
                     >
                       {toTitleCase(person.full_name).split(" ").map(w => w[0]).join("").slice(0, 2)}

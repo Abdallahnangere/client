@@ -43,12 +43,7 @@ export default async function LedgerPage() {
       {/* Header */}
       <div className="flex items-start justify-between gap-4 mb-10">
         <div>
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-4 h-px" style={{ background: "linear-gradient(90deg, #C8963C, transparent)" }} />
-            <span className="text-[10px] font-semibold tracking-widest uppercase" style={{ color: "#C8963C" }}>
-              Master Ledger
-            </span>
-          </div>
+          <div className="eyebrow">Master Ledger</div>
           <h1 className="font-display text-4xl font-light" style={{ color: "#E8EDF8", letterSpacing: "0.02em" }}>
             Transaction Ledger
           </h1>
@@ -60,48 +55,43 @@ export default async function LedgerPage() {
 
       {/* Summary strip */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
-        <div className="card p-4 relative overflow-hidden" style={{ borderColor: "rgba(200,150,60,0.2)" }}>
-          <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(200,150,60,0.5), transparent)" }} />
+        <div className="stat-card stat-card-gold">
           <p className="text-[10px] font-semibold tracking-widest uppercase mb-1.5" style={{ color: "#3D5070" }}>
             Transactions
           </p>
           <p className="font-mono text-2xl font-medium" style={{ color: "#C8963C" }}>{totalTx}</p>
         </div>
-        <div className="card p-4 relative overflow-hidden" style={{ borderColor: "rgba(46,204,142,0.15)" }}>
-          <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(46,204,142,0.4), transparent)" }} />
+        <div className="stat-card stat-card-green">
           <p className="text-[10px] font-semibold tracking-widest uppercase mb-1.5" style={{ color: "#3D5070" }}>
             Total Inflow
           </p>
           <p className="font-mono text-lg font-medium" style={{ color: "#2ECC8E" }}>{formatCurrency(stats.total_inflow)}</p>
           <p className="text-[10px] mt-0.5" style={{ color: "#3D5070" }}>{creditTx.length} credits</p>
         </div>
-        <div className="card p-4 relative overflow-hidden" style={{ borderColor: "rgba(224,85,85,0.15)" }}>
-          <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(224,85,85,0.4), transparent)" }} />
+        <div className="stat-card stat-card-red">
           <p className="text-[10px] font-semibold tracking-widest uppercase mb-1.5" style={{ color: "#3D5070" }}>
             Total Outflow
           </p>
           <p className="font-mono text-lg font-medium" style={{ color: "#E05555" }}>{formatCurrency(stats.total_outflow)}</p>
           <p className="text-[10px] mt-0.5" style={{ color: "#3D5070" }}>{debitTx.length} debits</p>
         </div>
-        <div className="card p-4 relative overflow-hidden">
-          <p className="text-[10px] font-semibold tracking-widest uppercase mb-1.5" style={{ color: "#3D5070" }}>
-            Net Position
-          </p>
-          {(() => {
-            const net = parseFloat(stats.total_inflow) - parseFloat(stats.total_outflow);
-            const isPos = net >= 0;
-            return (
-              <>
-                <p className="font-mono text-lg font-medium" style={{ color: isPos ? "#2ECC8E" : "#E05555" }}>
-                  {formatCurrency(Math.abs(net))}
-                </p>
-                <p className="text-[10px] mt-0.5" style={{ color: "#3D5070" }}>
-                  {isPos ? "fund surplus" : "fund deficit"}
-                </p>
-              </>
-            );
-          })()}
-        </div>
+        {(() => {
+          const net = parseFloat(stats.total_inflow) - parseFloat(stats.total_outflow);
+          const isPos = net >= 0;
+          return (
+            <div className={`stat-card ${isPos ? "stat-card-green" : "stat-card-red"}`}>
+              <p className="text-[10px] font-semibold tracking-widest uppercase mb-1.5" style={{ color: "#3D5070" }}>
+                Net Position
+              </p>
+              <p className="font-mono text-lg font-medium" style={{ color: isPos ? "#2ECC8E" : "#E05555" }}>
+                {formatCurrency(Math.abs(net))}
+              </p>
+              <p className="text-[10px] mt-0.5" style={{ color: "#3D5070" }}>
+                {isPos ? "fund surplus" : "fund deficit"}
+              </p>
+            </div>
+          );
+        })()}
       </div>
 
       {/* Ledger by month */}

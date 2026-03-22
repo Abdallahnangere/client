@@ -118,12 +118,7 @@ export default function EditPersonPage({
 
         {/* Header */}
         <div className="mb-8">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-4 h-px" style={{ background: "linear-gradient(90deg, #C8963C, transparent)" }} />
-            <span className="text-[10px] font-semibold tracking-widest uppercase" style={{ color: "#C8963C" }}>
-              Fund Registry
-            </span>
-          </div>
+          <div className="eyebrow">Fund Registry</div>
           <h1 className="font-display text-4xl font-light" style={{ color: "#E8EDF8", letterSpacing: "0.02em" }}>
             Edit Profile
           </h1>
@@ -136,7 +131,7 @@ export default function EditPersonPage({
           <div className="card p-6 space-y-5">
             {error && (
               <div
-                className="p-3 text-sm rounded-[2px]"
+                className="p-3 text-sm rounded-lg"
                 style={{
                   background: "rgba(224,85,85,0.08)",
                   border: "1px solid rgba(224,85,85,0.2)",

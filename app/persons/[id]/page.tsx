@@ -82,12 +82,11 @@ export default async function PersonDetailPage({
             {/* Avatar + Identity */}
             <div className="flex items-start gap-4">
               <div
-                className="w-14 h-14 flex-shrink-0 flex items-center justify-center text-base font-semibold"
+                className="w-14 h-14 rounded-2xl flex-shrink-0 flex items-center justify-center text-base font-semibold"
                 style={{
                   background: "linear-gradient(135deg, #0D1A2E, #162240)",
-                  border: "1px solid #C8963C40",
+                  border: "1px solid rgba(200,150,60,0.25)",
                   color: "#C8963C",
-                  clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)",
                 }}
               >
                 {toTitleCase(person.full_name).split(" ").map(w => w[0]).join("").slice(0, 2)}
@@ -141,7 +140,7 @@ export default async function PersonDetailPage({
                 </p>
               </div>
               <div
-                className="text-center lg:text-right px-4 py-0 rounded-[2px]"
+                className="text-center lg:text-right px-4 py-0 rounded-lg"
                 style={{ borderLeft: `2px solid ${netBalance < 0 ? "#E05555" : "#2ECC8E"}33` }}
               >
                 <p className="text-[10px] font-semibold tracking-widest uppercase mb-1" style={{ color: "#3D5070" }}>
