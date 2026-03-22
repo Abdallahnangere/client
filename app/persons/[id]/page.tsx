@@ -3,6 +3,7 @@ import { formatCurrency, formatDateTime, toTitleCase } from "@/lib/utils";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import TransactionActions from "./TransactionActions";
+import DeleteTxButton from "./DeleteTxButton";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -330,32 +331,4 @@ export default async function PersonDetailPage({
   );
 }
 
-// Inline delete button (client component)
-function DeleteTxButton({ txId }: { txId: number }) {
-  return (
-    <form
-      action={async () => {
-        "use server";
-        const { deleteTransaction } = await import("@/lib/db");
-        await deleteTransaction(txId);
-        const { revalidatePath } = await import("next/cache");
-        revalidatePath("/", "layout");
-      }}
-    >
-      <button
-        type="submit"
-        className="btn btn-ghost p-1.5 opacity-0 group-hover:opacity-100 hover:text-[#E05555] transition-all"
-        title="Delete transaction"
-        onClick={(e) => {
-          if (!confirm("Delete this transaction? This cannot be undone.")) {
-            e.preventDefault();
-          }
-        }}
-      >
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-          <path d="M1 3h10M4 3V1.5h4V3M4.5 5v4.5M7.5 5v4.5M2 3l.5 7.5h7L10 3" stroke="currentColor" strokeWidth="1" strokeLinecap="square" />
-        </svg>
-      </button>
-    </form>
-  );
-}
+
