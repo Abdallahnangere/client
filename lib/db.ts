@@ -51,11 +51,11 @@ export interface PersonBalanceSummary {
 // ─── Persons ────────────────────────────────────────────────────────────────
 
 export async function getPersons(): Promise<Person[]> {
-  return sql`SELECT * FROM persons ORDER BY created_at DESC` as Promise<Person[]>;
+  return sql`SELECT * FROM persons ORDER BY created_at DESC` as unknown as Promise<Person[]>;
 }
 
 export async function getPerson(id: number): Promise<Person | null> {
-  const rows = await sql`SELECT * FROM persons WHERE id = ${id}` as Person[];
+  const rows = await sql`SELECT * FROM persons WHERE id = ${id}` as unknown as Person[];
   return rows[0] || null;
 }
 
@@ -69,7 +69,7 @@ export async function createPerson(data: {
     INSERT INTO persons (full_name, phone, email, notes)
     VALUES (${data.full_name}, ${data.phone || null}, ${data.email || null}, ${data.notes || null})
     RETURNING *
-  ` as Person[];
+  ` as unknown as Person[];
   return rows[0];
 }
 
@@ -90,12 +90,12 @@ export async function updatePerson(
         notes = ${data.notes || null}
     WHERE id = ${id}
     RETURNING *
-  ` as Person[];
+  ` as unknown as Person[];
   return rows[0] || null;
 }
 
 export async function deletePerson(id: number): Promise<boolean> {
-  const rows = await sql`DELETE FROM persons WHERE id = ${id} RETURNING id` as {id:number}[];
+  const rows = await sql`DELETE FROM persons WHERE id = ${id} RETURNING id` as unknown as {id:number}[];
   return rows.length > 0;
 }
 
@@ -106,7 +106,7 @@ export async function getTransactionsByPerson(personId: number): Promise<Transac
     SELECT * FROM transactions
     WHERE person_id = ${personId}
     ORDER BY transaction_date DESC, created_at DESC
-  ` as Promise<Transaction[]>;
+  ` as unknown as Promise<Transaction[]>;
 }
 
 export async function createTransaction(data: {
@@ -129,25 +129,25 @@ export async function createTransaction(data: {
        ${data.transaction_date}, ${data.bank || null}, ${data.reference_number || null},
        ${data.status || "SUCCESSFUL"}, ${data.note || null})
     RETURNING *
-  ` as Transaction[];
+  ` as unknown as Transaction[];
   return rows[0];
 }
 
 export async function deleteTransaction(id: number): Promise<boolean> {
-  const rows = await sql`DELETE FROM transactions WHERE id = ${id} RETURNING id` as {id:number}[];
+  const rows = await sql`DELETE FROM transactions WHERE id = ${id} RETURNING id` as unknown as {id:number}[];
   return rows.length > 0;
 }
 
 // ─── Summary / Dashboard ─────────────────────────────────────────────────────
 
 export async function getPersonBalanceSummaries(): Promise<PersonBalanceSummary[]> {
-  return sql`SELECT * FROM person_balance_summary ORDER BY full_name` as Promise<PersonBalanceSummary[]>;
+  return sql`SELECT * FROM person_balance_summary ORDER BY full_name` as unknown as Promise<PersonBalanceSummary[]>;
 }
 
 export async function getPersonBalanceSummary(personId: number): Promise<PersonBalanceSummary | null> {
   const rows = await sql`
     SELECT * FROM person_balance_summary WHERE person_id = ${personId}
-  ` as PersonBalanceSummary[];
+  ` as unknown as PersonBalanceSummary[];
   return rows[0] || null;
 }
 
@@ -176,5 +176,5 @@ export async function getRecentTransactions(limit = 10): Promise<(Transaction & 
     JOIN persons p ON p.id = t.person_id
     ORDER BY t.transaction_date DESC, t.created_at DESC
     LIMIT ${limit}
-  ` as Promise<(Transaction & { person_name: string })[]>;
+  ` as unknown as Promise<(Transaction & { person_name: string })[]>;
 }
