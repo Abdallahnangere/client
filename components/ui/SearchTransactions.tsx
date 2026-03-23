@@ -11,7 +11,7 @@ interface Transaction {
   receiver: string;
   bank: string | null;
   reference_number: string | null;
-  person_name: string;
+  person_name?: string;
 }
 
 interface SearchTransactionsProps {
