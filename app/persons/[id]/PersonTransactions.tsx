@@ -2,9 +2,8 @@
 
 import { useState, useMemo } from "react";
 import { formatCurrency, formatDateTime, toTitleCase } from "@/lib/utils";
-import Link from "next/link";
-import ToggleTxType from "@/app/persons/[id]/ToggleTxType";
-import DeleteTxButton from "@/app/persons/[id]/DeleteTxButton";
+import ToggleTxType from "./ToggleTxType";
+import DeleteTxButton from "./DeleteTxButton";
 import ScrollableTable from "@/components/ui/ScrollableTable";
 
 interface Transaction {
@@ -18,12 +17,16 @@ interface Transaction {
   reference_number: string | null;
   status: string;
   note: string | null;
-  person_id: number;
-  person_name: string;
 }
 
-interface LedgerContentProps {
-  allTx: Transaction[];
+interface PersonTransactionsProps {
+  transactions: Transaction[];
+}
+
+function monthKey(date: string | null): string {
+  if (!date) return "undated";
+  const d = new Date(date);
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
 }
 
 function monthLabel(key: string): string {
@@ -35,30 +38,23 @@ function monthLabel(key: string): string {
   });
 }
 
-function monthKey(date: string | null): string {
-  if (!date) return "undated";
-  const d = new Date(date);
-  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
-}
-
-export default function LedgerContent({ allTx }: LedgerContentProps) {
+export default function PersonTransactions({ transactions }: PersonTransactionsProps) {
   const [query, setQuery] = useState("");
 
   const filtered = useMemo(() => {
-    if (!query.trim()) return allTx;
+    if (!query.trim()) return transactions;
     const q = query.toLowerCase();
-    return allTx.filter(
+    return transactions.filter(
       (tx) =>
         tx.id.toString().includes(q) ||
         tx.sender.toLowerCase().includes(q) ||
         tx.receiver.toLowerCase().includes(q) ||
         (tx.bank || "").toLowerCase().includes(q) ||
         (tx.reference_number || "").toLowerCase().includes(q) ||
-        (tx.person_name || "").toLowerCase().includes(q) ||
         tx.amount.toString().includes(q) ||
         tx.type.toLowerCase().includes(q)
     );
-  }, [query, allTx]);
+  }, [query, transactions]);
 
   const grouped = useMemo(() => {
     const g: Record<string, Transaction[]> = {};
@@ -78,37 +74,36 @@ export default function LedgerContent({ allTx }: LedgerContentProps) {
   return (
     <div>
       {/* Search bar */}
-      <div className="mb-6">
+      <div className="px-6 pt-4 pb-0">
         <input
           type="text"
-          placeholder="Search by ID, client, sender, receiver, bank, reference, amount..."
+          placeholder="Search by ID, sender, receiver, bank, reference, amount..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="input w-full"
         />
         {query && (
-          <p className="mt-2 text-sm" style={{ color: "var(--text-3)" }}>
-            Showing {filtered.length} of {allTx.length} transactions
+          <p className="mt-2 text-xs" style={{ color: "var(--text-3)" }}>
+            Showing {filtered.length} of {transactions.length} transactions
           </p>
         )}
       </div>
 
       {/* Results */}
       {filtered.length === 0 ? (
-        <div className="card flex flex-col items-center justify-center py-16">
+        <div className="flex flex-col items-center justify-center py-16">
           <p className="font-display text-xl font-light" style={{ color: "var(--text-2)" }}>No matching transactions</p>
           <p className="text-xs mt-1" style={{ color: "var(--text-3)" }}>Try a different search term</p>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div>
           {months.map((month) => {
             const txs = grouped[month];
             const inflow = txs.reduce((s, t) => t.type === "CREDIT" ? s + parseFloat(String(t.amount)) : s, 0);
             const outflow = txs.reduce((s, t) => t.type === "DEBIT" ? s + parseFloat(String(t.amount)) : s, 0);
-            const net = inflow - outflow;
 
             return (
-              <div key={month} className="card overflow-hidden">
+              <div key={month}>
                 {/* Month header */}
                 <div
                   className="px-6 py-3 flex items-center justify-between"
@@ -127,25 +122,15 @@ export default function LedgerContent({ allTx }: LedgerContentProps) {
                     {outflow > 0 && (
                       <span style={{ color: "var(--red)" }}>-{formatCurrency(outflow)}</span>
                     )}
-                    <span
-                      style={{
-                        color: net >= 0 ? "var(--green)" : "var(--red)",
-                        borderLeft: "1px solid var(--border)",
-                        paddingLeft: "1rem",
-                      }}
-                    >
-                      Net: {net >= 0 ? "+" : "-"}{formatCurrency(Math.abs(net))}
-                    </span>
                   </div>
                 </div>
 
-                {/* Table */}
+                {/* Transactions */}
                 <ScrollableTable>
                   <table className="data-table">
                     <thead>
                       <tr>
                         <th>Date</th>
-                        <th>Client</th>
                         <th>Type</th>
                         <th>Sender</th>
                         <th>Receiver</th>
@@ -153,26 +138,16 @@ export default function LedgerContent({ allTx }: LedgerContentProps) {
                         <th>Bank</th>
                         <th>Reference</th>
                         <th>Status</th>
-                        <th>Note</th>
                         <th></th>
                       </tr>
                     </thead>
                     <tbody>
                       {txs.map((tx) => (
-                        <tr key={tx.id} className="group">
+                        <tr key={tx.id}>
                           <td>
                             <span className="font-mono text-xs" style={{ color: "var(--text-2)" }}>
                               {formatDateTime(tx.transaction_date)}
                             </span>
-                          </td>
-                          <td>
-                            <Link
-                              href={"/persons/" + tx.person_id}
-                              className="text-xs font-medium hover:opacity-70 transition-opacity"
-                              style={{ color: "var(--brand)" }}
-                            >
-                              {toTitleCase(tx.person_name).split(" ").slice(0, 2).join(" ")}
-                            </Link>
                           </td>
                           <td>
                             <span className={"badge badge-" + tx.type.toLowerCase()}>
@@ -205,7 +180,7 @@ export default function LedgerContent({ allTx }: LedgerContentProps) {
                           <td>
                             {tx.reference_number ? (
                               <span className="font-mono text-xs" style={{ color: "var(--text-3)" }}>
-                                {tx.reference_number.slice(0, 14)}{tx.reference_number.length > 14 ? "..." : ""}
+                                {tx.reference_number.slice(0, 16)}{tx.reference_number.length > 16 ? "..." : ""}
                               </span>
                             ) : (
                               <span style={{ color: "var(--text-3)" }}>-</span>
@@ -215,19 +190,6 @@ export default function LedgerContent({ allTx }: LedgerContentProps) {
                             <span className="badge badge-success text-xs">
                               {tx.status}
                             </span>
-                          </td>
-                          <td>
-                            {tx.note ? (
-                              <span
-                                className="text-xs max-w-[160px] truncate block"
-                                style={{ color: "var(--text-2)" }}
-                                title={tx.note}
-                              >
-                                {tx.note}
-                              </span>
-                            ) : (
-                              <span style={{ color: "var(--text-3)" }}>-</span>
-                            )}
                           </td>
                           <td>
                             <div className="flex items-center gap-1">

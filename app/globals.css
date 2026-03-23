@@ -1,10 +1,10 @@
-﻿@tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   DESIGN TOKENS  — bank-grade, clean corporate light theme
-   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ============================================================
+   DESIGN TOKENS  -- bank-grade, clean corporate light theme
+   ============================================================ */
 :root {
   /* Surfaces */
   --bg:              #F5F7FA;
@@ -21,7 +21,7 @@
   --text-2:          #52637A;
   --text-3:          #8A9BB4;
 
-  /* Brand — institutional blue */
+  /* Brand -- institutional blue */
   --brand:           #1B4FD8;
   --brand-hover:     #1540B8;
   --brand-light:     #EBF2FF;
@@ -35,7 +35,7 @@
   --red-bg:          #FDF2F2;
   --red-border:      #F0BCBC;
 
-  /* Sidebar (stays dark — Stripe/Linear pattern) */
+  /* Sidebar (stays dark -- Stripe/Linear pattern) */
   --sb-bg:           #0D1421;
   --sb-surface:      #18243A;
   --sb-border:       #1E2E45;
@@ -47,7 +47,7 @@
   /* Radii */
   --r-xs: 3px; --r-sm: 6px; --r: 10px; --r-lg: 14px; --r-xl: 20px;
 
-  /* Shadows — very subtle for clean look */
+  /* Shadows -- very subtle for clean look */
   --shadow-xs: 0 1px 2px rgba(13,20,33,.05);
   --shadow-sm: 0 1px 3px rgba(13,20,33,.07), 0 1px 2px rgba(13,20,33,.04);
   --shadow-md: 0 4px 8px rgba(13,20,33,.07), 0 2px 4px rgba(13,20,33,.04);
@@ -55,7 +55,7 @@
   --shadow-xl: 0 20px 40px rgba(13,20,33,.10), 0 8px 16px rgba(13,20,33,.06);
 }
 
-/* â”€â”€â”€ Reset â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- Reset ------------------------------------------------- */
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; padding: 0; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; overflow-x: hidden; }
@@ -71,7 +71,7 @@ body {
   min-width: 0;
 }
 
-/* â”€â”€â”€ Scrollbar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- Scrollbar --------------------------------------------- */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: var(--surface-2); }
 ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 99px; }
@@ -81,7 +81,7 @@ body {
 ::selection { background: var(--brand-light); color: var(--brand); }
 *:focus-visible { outline: 2px solid var(--brand-mid); outline-offset: 2px; }
 
-/* â”€â”€â”€ Typography â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- Typography -------------------------------------------- */
 .font-display { font-family: "Cormorant Garamond", Georgia, serif; }
 .font-mono    { font-family: "IBM Plex Mono", "SF Mono", monospace; }
 .text-brand-gradient {
@@ -117,7 +117,7 @@ body {
 /* Divider */
 .gold-rule { height: 1px; background: var(--border); }
 
-/* â”€â”€â”€ Cards â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- Cards ------------------------------------------------- */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -130,7 +130,7 @@ body {
   box-shadow: var(--shadow-md);
 }
 
-/* Stat Cards — left accent strip, clean & flat */
+/* Stat Cards -- left accent strip, clean and flat */
 .stat-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -146,7 +146,7 @@ body {
 .stat-card-gold   { border-left-color: var(--brand); }
 .stat-card-neutral { border-left-color: var(--border-strong); }
 
-/* â”€â”€â”€ Inputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- Inputs ------------------------------------------------ */
 .input {
   display: block;
   width: 100%;
@@ -166,7 +166,7 @@ body {
 .input::placeholder { color: var(--text-3); }
 .input:disabled { opacity: .45; cursor: not-allowed; background: var(--surface-2); }
 
-/* â”€â”€â”€ Buttons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- Buttons ----------------------------------------------- */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -187,7 +187,7 @@ body {
 }
 .btn:disabled { opacity: .4; cursor: not-allowed; pointer-events: none; }
 
-/* Primary — institutional blue (class kept as btn-gold for back-compat) */
+/* Primary -- institutional blue (class kept as btn-gold for back-compat) */
 .btn-gold {
   background: var(--brand);
   color: #FFFFFF;
@@ -221,7 +221,7 @@ body {
 .btn-debit  { background: var(--red-bg);   color: var(--red);   border-color: var(--red-border); }
 .btn-debit:hover:not(:disabled) { background: #FEE2E2; }
 
-/* â”€â”€â”€ Badges â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- Badges ------------------------------------------------ */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -237,7 +237,7 @@ body {
 .badge-success { background: var(--green-bg);   color: var(--green); border: 1px solid var(--green-border); }
 .badge-gold    { background: var(--brand-light); color: var(--brand); border: 1px solid rgba(27,79,216,.2); }
 
-/* â”€â”€â”€ Modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- Modal ------------------------------------------------- */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -263,7 +263,7 @@ body {
   animation: modalIn .22s cubic-bezier(.34,1.2,.64,1);
 }
 
-/* â”€â”€â”€ Data Table â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- Data Table -------------------------------------------- */
 .data-table { width: 100%; border-collapse: collapse; }
 .data-table th {
   font-size: .6875rem;
@@ -291,7 +291,7 @@ body {
 .data-table tbody tr { transition: background .1s; }
 .data-table tbody tr:hover { background: var(--brand-light); }
 
-/* â”€â”€â”€ Skeleton â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- Skeleton ---------------------------------------------- */
 .skeleton {
   background: linear-gradient(90deg, var(--surface-2) 0%, var(--surface-3) 50%, var(--surface-2) 100%);
   background-size: 200% 100%;
@@ -299,10 +299,10 @@ body {
   border-radius: var(--r-xs);
 }
 
-/* â”€â”€â”€ Page transition â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- Page transition --------------------------------------- */
 .page-transition { animation: fadeIn .18s ease-out; }
 
-/* â”€â”€â”€ Divider label â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- Divider label ----------------------------------------- */
 .divider-label {
   display: flex; align-items: center; gap: 1rem;
   color: var(--text-3); font-size: .7rem; font-weight: 600;
@@ -312,7 +312,7 @@ body {
   content: ""; flex: 1; height: 1px; background: var(--border);
 }
 
-/* â”€â”€â”€ Keyframes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- Keyframes --------------------------------------------- */
 @keyframes fadeIn  { from { opacity: 0 } to { opacity: 1 } }
 @keyframes shimmer { 0% { background-position: -200% 0 } 100% { background-position: 200% 0 } }
 @keyframes modalIn { from { opacity: 0; transform: translateY(12px) scale(.97) } to { opacity: 1; transform: none } }

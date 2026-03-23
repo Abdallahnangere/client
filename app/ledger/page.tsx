@@ -1,5 +1,5 @@
-﻿import { getRecentTransactions, getDashboardStats } from "@/lib/db";
-import { formatCurrency, formatDateTime, toTitleCase } from "@/lib/utils";
+import { getDashboardStats } from "@/lib/db";
+import { formatCurrency } from "@/lib/utils";
 import Link from "next/link";
 import sql from "@/lib/db";
 import LedgerContent from "./LedgerContent";
@@ -17,29 +17,8 @@ export default async function LedgerPage() {
 
   const stats = await getDashboardStats();
   const totalTx = allTx.length;
-  const creditTx = allTx.filter((t) => t.type === "CREDIT");
-  const debitTx = allTx.filter((t) => t.type === "DEBIT");
-
-  // Group by month
-  const grouped: Record<string, typeof allTx> = {};
-  for (const tx of allTx) {
-    const key = tx.transaction_date
-      ? (() => { const d = new Date(tx.transaction_date); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`; })()
-      : "undated";
-    if (!grouped[key]) grouped[key] = [];
-    grouped[key].push(tx);
-  }
-
-  const months = Object.keys(grouped).sort().reverse();
-
-  const monthLabel = (key: string) => {
-    if (key === "undated") return "Date Unknown";
-    const [year, month] = key.split("-");
-    return new Date(parseInt(year), parseInt(month) - 1, 1).toLocaleDateString("en-GB", {
-      month: "long",
-      year: "numeric",
-    });
-  };
+  const creditTx = allTx.filter((t: any) => t.type === "CREDIT");
+  const debitTx = allTx.filter((t: any) => t.type === "DEBIT");
 
   return (
     <div className="min-h-screen p-6 lg:p-10">
@@ -51,7 +30,7 @@ export default async function LedgerPage() {
             Transaction Ledger
           </h1>
           <p className="mt-1 text-sm" style={{ color: "var(--text-2)" }}>
-            Complete fund activity — {totalTx} transactions
+            Complete fund activity &mdash; {totalTx} transactions
           </p>
         </div>
       </div>
@@ -59,37 +38,37 @@ export default async function LedgerPage() {
       {/* Summary strip */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
         <div className="stat-card stat-card-gold">
-          <p className="text-[10px] font-semibold tracking-widest uppercase mb-1.5" style={{ color: "var(--text-3)" }}>
+          <p className="text-xs font-semibold tracking-widest uppercase mb-1.5" style={{ color: "var(--text-3)" }}>
             Transactions
           </p>
           <p className="font-mono text-2xl font-medium" style={{ color: "var(--brand)" }}>{totalTx}</p>
         </div>
         <div className="stat-card stat-card-green">
-          <p className="text-[10px] font-semibold tracking-widest uppercase mb-1.5" style={{ color: "var(--text-3)" }}>
+          <p className="text-xs font-semibold tracking-widest uppercase mb-1.5" style={{ color: "var(--text-3)" }}>
             Total Inflow
           </p>
           <p className="font-mono text-lg font-medium" style={{ color: "var(--green)" }}>{formatCurrency(stats.total_inflow)}</p>
-          <p className="text-[10px] mt-0.5" style={{ color: "var(--text-3)" }}>{creditTx.length} credits</p>
+          <p className="text-xs mt-0.5" style={{ color: "var(--text-3)" }}>{creditTx.length} credits</p>
         </div>
         <div className="stat-card stat-card-red">
-          <p className="text-[10px] font-semibold tracking-widest uppercase mb-1.5" style={{ color: "var(--text-3)" }}>
+          <p className="text-xs font-semibold tracking-widest uppercase mb-1.5" style={{ color: "var(--text-3)" }}>
             Total Outflow
           </p>
           <p className="font-mono text-lg font-medium" style={{ color: "var(--red)" }}>{formatCurrency(stats.total_outflow)}</p>
-          <p className="text-[10px] mt-0.5" style={{ color: "var(--text-3)" }}>{debitTx.length} debits</p>
+          <p className="text-xs mt-0.5" style={{ color: "var(--text-3)" }}>{debitTx.length} debits</p>
         </div>
         {(() => {
-          const net = parseFloat(stats.total_inflow) - parseFloat(stats.total_outflow);
+          const net = parseFloat(String(stats.total_inflow)) - parseFloat(String(stats.total_outflow));
           const isPos = net >= 0;
           return (
-            <div className={`stat-card ${isPos ? "stat-card-green" : "stat-card-red"}`}>
-              <p className="text-[10px] font-semibold tracking-widest uppercase mb-1.5" style={{ color: "var(--text-3)" }}>
+            <div className={"stat-card " + (isPos ? "stat-card-green" : "stat-card-red")}>
+              <p className="text-xs font-semibold tracking-widest uppercase mb-1.5" style={{ color: "var(--text-3)" }}>
                 Net Position
               </p>
               <p className="font-mono text-lg font-medium" style={{ color: isPos ? "var(--green)" : "var(--red)" }}>
                 {formatCurrency(Math.abs(net))}
               </p>
-              <p className="text-[10px] mt-0.5" style={{ color: "var(--text-3)" }}>
+              <p className="text-xs mt-0.5" style={{ color: "var(--text-3)" }}>
                 {isPos ? "fund surplus" : "fund deficit"}
               </p>
             </div>
@@ -97,7 +76,7 @@ export default async function LedgerPage() {
         })()}
       </div>
 
-      {/* Ledger by month */}
+      {/* Ledger */}
       {allTx.length === 0 ? (
         <div className="card flex flex-col items-center justify-center py-20">
           <p className="font-display text-xl font-light" style={{ color: "var(--text-2)" }}>No transactions recorded</p>
@@ -105,7 +84,7 @@ export default async function LedgerPage() {
           <Link href="/persons" className="btn btn-outline mt-6">View Clients</Link>
         </div>
       ) : (
-        <LedgerContent allTx={allTx} grouped={grouped} months={months} monthLabel={monthLabel} />
+        <LedgerContent allTx={allTx} />
       )}
     </div>
   );
