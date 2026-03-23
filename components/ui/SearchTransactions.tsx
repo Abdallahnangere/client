@@ -6,7 +6,7 @@ interface Transaction {
   id: number;
   transaction_date: string | null;
   type: "CREDIT" | "DEBIT";
-  amount: number;
+  amount: string | number;
   sender: string;
   receiver: string;
   bank: string | null;
