@@ -192,13 +192,13 @@ export async function getDashboardStats() {
       COALESCE(SUM(CASE WHEN t.type = 'DEBIT'  THEN t.amount END), 0) AS total_outflow
     FROM persons p
     LEFT JOIN transactions t ON t.person_id = p.id
-  `;
-  return stats[0] as {
+  ` as unknown as {
     total_persons: string;
     total_transactions: string;
     total_inflow: string;
     total_outflow: string;
-  };
+  }[];
+  return stats[0];
 }
 
 export async function getRecentTransactions(limit = 10): Promise<(Transaction & { person_name: string })[]> {
