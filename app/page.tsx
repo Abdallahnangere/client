@@ -199,10 +199,8 @@ export default async function DashboardPage() {
                   <Link
                     key={s.person_id}
                     href={`/persons/${s.person_id}`}
-                    className="block p-3 rounded-xl transition-colors"
+                    className="block p-3 rounded-xl transition-colors hover:bg-[var(--brand-light)]"
                     style={{ border: "1px solid var(--border)" }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = "var(--brand-light)")}
-                    onMouseLeave={(e) => (e.currentTarget.style.background = "")}
                   >
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <div className="flex items-center gap-2">
