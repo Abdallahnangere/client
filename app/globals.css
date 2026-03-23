@@ -41,11 +41,12 @@ body {
   overflow-x: hidden;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--color-border-bright); border-radius: 99px; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-gold-dim); }
+/* Scrollbar — always visible, 8 px */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #08121F; border-radius: 99px; }
+::-webkit-scrollbar-thumb { background: #1A2D4A; border-radius: 99px; border: 2px solid #08121F; }
+::-webkit-scrollbar-thumb:hover { background: #C8963C; }
+::-webkit-scrollbar-corner { background: #08121F; }
 
 ::selection { background: rgba(200,150,60,.22); color: var(--color-gold-bright); }
 *:focus-visible { outline: 2px solid rgba(200,150,60,.55); outline-offset: 2px; }

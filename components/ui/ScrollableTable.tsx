@@ -100,11 +100,11 @@ export default function ScrollableTable({ children }: { children: React.ReactNod
       <div
         ref={scrollRef}
         style={{
-          overflowX: "auto",
+          overflowX: "scroll",
+          overflowY: "auto",
           paddingLeft: 4,
           paddingRight: 4,
-          /* Custom scrollbar */
-          scrollbarWidth: "thin",
+          scrollbarWidth: "auto",
           scrollbarColor: "#1A2D4A #08121F",
         }}
       >
