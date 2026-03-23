@@ -171,7 +171,7 @@ export default async function DashboardPage() {
           </ScrollableTable>
         </div>
 
-        {/* Client Exposures */
+        {/* Client Exposures */}
         <div className="card">
           <div
             className="px-6 py-4"
