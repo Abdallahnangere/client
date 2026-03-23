@@ -1,16 +1,32 @@
 import { neon } from "@neondatabase/serverless";
 
-function createSqlClient() {
-  const url = process.env.DATABASE_URL;
-  if (!url) {
-    throw new Error(
-      "DATABASE_URL is not configured. Add it to your Vercel project environment variables."
-    );
+// Lazy singleton — avoids module-level throw if DATABASE_URL is not yet set
+let _sql: ReturnType<typeof neon> | null = null;
+
+function getSql(): ReturnType<typeof neon> {
+  if (!_sql) {
+    const url = process.env.DATABASE_URL;
+    if (!url) {
+      throw new Error(
+        "DATABASE_URL is not configured. Add it to your Vercel project environment variables."
+      );
+    }
+    _sql = neon(url);
   }
-  return neon(url);
+  return _sql;
 }
 
-const sql = createSqlClient();
+// Callable proxy — intercepts tagged template literal calls and property access
+const sql = new Proxy(function () {} as unknown as ReturnType<typeof neon>, {
+  apply(_target, _thisArg, args) {
+    return (getSql() as unknown as (...a: unknown[]) => unknown)(...args);
+  },
+  get(_target, prop) {
+    const client = getSql();
+    const val = (client as Record<string | symbol, unknown>)[prop as string];
+    return typeof val === "function" ? (val as Function).bind(client) : val;
+  },
+});
 
 export default sql;
 
