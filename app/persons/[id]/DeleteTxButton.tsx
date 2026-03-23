@@ -18,7 +18,7 @@ export default function DeleteTxButton({ txId }: { txId: number }) {
     <button
       type="button"
       onClick={handleDelete}
-      className="btn btn-ghost p-1.5 opacity-0 group-hover:opacity-100 hover:text-[#E05555] transition-all"
+      className="btn btn-ghost p-1.5 hover:text-[#E05555] transition-all"
       title="Delete transaction"
     >
       <svg width="12" height="12" viewBox="0 0 12 12" fill="none">

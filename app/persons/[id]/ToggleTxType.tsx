@@ -33,7 +33,7 @@ export default function ToggleTxType({ txId, currentType }: Props) {
       onClick={handleToggle}
       disabled={loading}
       title={`Toggle to ${isDebit ? "CREDIT" : "DEBIT"}`}
-      className="opacity-0 group-hover:opacity-100 transition-all inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-semibold tracking-wide border"
+      className="transition-all inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-semibold tracking-wide border"
       style={{
         color: isDebit ? "#E05555" : "#2ECC8E",
         borderColor: isDebit ? "#E05555" : "#2ECC8E",

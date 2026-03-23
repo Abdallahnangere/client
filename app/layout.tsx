@@ -44,8 +44,8 @@ export default function RootLayout({
     <html lang="en" className={`${cormorant.variable} ${dmSans.variable} ${ibmMono.variable}`}>
       <body className="min-h-screen flex">
         <Sidebar />
-        <main className="flex-1 ml-0 lg:ml-64 min-h-screen relative">
-          <div className="page-transition">{children}</div>
+        <main className="flex-1 ml-0 lg:ml-64 min-h-screen relative min-w-0 overflow-x-hidden">
+          <div className="page-transition min-w-0">{children}</div>
         </main>
       </body>
     </html>

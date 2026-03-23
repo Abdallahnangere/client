@@ -315,19 +315,7 @@ export default async function PersonDetailPage({
                     </table>
                 </ScrollableTable>
 
-                  {/* Notes for month */}
-                  {txs.some((tx) => tx.note) && (
-                    <div className="px-6 py-4 space-y-2" style={{ borderTop: "1px solid #0D1524" }}>
-                      {txs.filter((tx) => tx.note).map((tx) => (
-                        <div key={tx.id} className="flex gap-2 text-xs">
-                          <span className={`flex-shrink-0 font-mono badge badge-${tx.type.toLowerCase()} text-[9px]`}>
-                            {tx.type}
-                          </span>
-                          <span style={{ color: "#6B83A8" }}>{tx.note}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+
                 </div>
               );
             })}
