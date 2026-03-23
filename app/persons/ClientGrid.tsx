@@ -2,20 +2,11 @@
 
 import { formatCurrency, formatDate, toTitleCase } from "@/lib/utils";
 import Link from "next/link";
-import type { Person } from "@/lib/db";
-
-interface Summary {
-  person_id: number;
-  transaction_count: number;
-  total_inflow: number;
-  total_outflow: number;
-  deficit: number;
-  surplus: number;
-}
+import type { Person, PersonBalanceSummary } from "@/lib/db";
 
 interface ClientGridProps {
   persons: Person[];
-  summaryMap: Map<number, Summary>;
+  summaryMap: Map<number, PersonBalanceSummary>;
 }
 
 export default function ClientGrid({ persons, summaryMap }: ClientGridProps) {
