@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import TransactionActions from "./TransactionActions";
 import DeleteTxButton from "./DeleteTxButton";
+import ToggleTxType from "./ToggleTxType";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -302,7 +303,10 @@ export default async function PersonDetailPage({
                               </span>
                             </td>
                             <td>
-                              <DeleteTxButton txId={tx.id} />
+                              <div className="flex items-center gap-1">
+                                <ToggleTxType txId={tx.id} currentType={tx.type as "CREDIT" | "DEBIT"} />
+                                <DeleteTxButton txId={tx.id} />
+                              </div>
                             </td>
                           </tr>
                         ))}

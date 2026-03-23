@@ -144,6 +144,16 @@ export async function deleteTransaction(id: number): Promise<boolean> {
   return rows.length > 0;
 }
 
+export async function toggleTransactionType(id: number): Promise<Transaction | null> {
+  const rows = await sql`
+    UPDATE transactions
+    SET type = CASE WHEN type = 'DEBIT' THEN 'CREDIT' ELSE 'DEBIT' END
+    WHERE id = ${id}
+    RETURNING *
+  ` as unknown as Transaction[];
+  return rows[0] || null;
+}
+
 // ─── Summary / Dashboard ─────────────────────────────────────────────────────
 
 export async function getPersonBalanceSummaries(): Promise<PersonBalanceSummary[]> {

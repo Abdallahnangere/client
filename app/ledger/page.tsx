@@ -2,6 +2,7 @@ import { getRecentTransactions, getDashboardStats } from "@/lib/db";
 import { formatCurrency, formatDateTime, toTitleCase } from "@/lib/utils";
 import Link from "next/link";
 import sql from "@/lib/db";
+import ToggleTxType from "@/app/persons/[id]/ToggleTxType";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -149,6 +150,7 @@ export default async function LedgerPage() {
                         <th>Reference</th>
                         <th>Status</th>
                         <th>Note</th>
+                        <th></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -212,6 +214,9 @@ export default async function LedgerPage() {
                             ) : (
                               <span style={{ color: "#3D5070" }}>—</span>
                             )}
+                          </td>
+                          <td>
+                            <ToggleTxType txId={tx.id} currentType={tx.type as "CREDIT" | "DEBIT"} />
                           </td>
                         </tr>
                       ))}
