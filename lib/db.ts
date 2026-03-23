@@ -23,7 +23,7 @@ const sql = new Proxy(function () {} as unknown as ReturnType<typeof neon>, {
   },
   get(_target, prop) {
     const client = getSql();
-    const val = (client as Record<string | symbol, unknown>)[prop as string];
+    const val = (client as unknown as Record<string | symbol, unknown>)[prop as string];
     return typeof val === "function" ? (val as Function).bind(client) : val;
   },
 });
