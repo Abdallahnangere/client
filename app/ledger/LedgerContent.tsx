@@ -3,6 +3,7 @@
 import { formatCurrency, formatDateTime, toTitleCase } from "@/lib/utils";
 import Link from "next/link";
 import ToggleTxType from "@/app/persons/[id]/ToggleTxType";
+import DeleteTxButton from "@/app/persons/[id]/DeleteTxButton";
 import ScrollableTable from "@/components/ui/ScrollableTable";
 import SearchTransactions from "@/components/ui/SearchTransactions";
 
@@ -157,7 +158,7 @@ export default function LedgerContent({
                                     : "var(--red)",
                               }}
                             >
-                              {tx.type === "CREDIT" ? "+" : "−"}
+                              {tx.type === "CREDIT" ? "+" : "-"}
                               {formatCurrency(tx.amount)}
                             </span>
                           </td>
@@ -166,7 +167,7 @@ export default function LedgerContent({
                               className="text-xs"
                               style={{ color: "var(--text-2)" }}
                             >
-                              {tx.bank || "—"}
+                              {tx.bank || "-"}
                             </span>
                           </td>
                           <td>
@@ -176,10 +177,10 @@ export default function LedgerContent({
                                 style={{ color: "var(--text-3)" }}
                               >
                                 {tx.reference_number.slice(0, 14)}
-                                {tx.reference_number.length > 14 ? "…" : ""}
+                                {tx.reference_number.length > 14 ? "..." : ""}
                               </span>
                             ) : (
-                              <span style={{ color: "var(--text-3)" }}>—</span>
+                              <span style={{ color: "var(--text-3)" }}>-</span>
                             )}
                           </td>
                           <td>
@@ -197,14 +198,17 @@ export default function LedgerContent({
                                 {tx.note}
                               </span>
                             ) : (
-                              <span style={{ color: "var(--text-3)" }}>—</span>
+                              <span style={{ color: "var(--text-3)" }}>-</span>
                             )}
                           </td>
                           <td>
-                            <ToggleTxType
-                              txId={tx.id}
-                              currentType={tx.type as "CREDIT" | "DEBIT"}
-                            />
+                            <div className="flex items-center gap-1">
+                              <ToggleTxType
+                                txId={tx.id}
+                                currentType={tx.type as "CREDIT" | "DEBIT"}
+                              />
+                              <DeleteTxButton txId={tx.id} />
+                            </div>
                           </td>
                         </tr>
                       ))}

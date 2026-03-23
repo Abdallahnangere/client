@@ -137,7 +137,7 @@ export default function ClientGrid({ persons, summaryMap }: ClientGridProps) {
                       style={{ color: "var(--text-3)" }}
                     >
                       {person.notes.slice(0, 80)}
-                      {person.notes.length > 80 ? "…" : ""}
+                      {person.notes.length > 80 ? "..." : ""}
                     </p>
                   )}
                 </div>
