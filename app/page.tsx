@@ -1,6 +1,7 @@
 import { getDashboardStats, getRecentTransactions, getPersonBalanceSummaries } from "@/lib/db";
 import { formatCurrency, formatDateTime, toTitleCase } from "@/lib/utils";
 import Link from "next/link";
+import ScrollableTable from "@/components/ui/ScrollableTable";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -109,7 +110,7 @@ export default async function DashboardPage() {
             </Link>
           </div>
 
-          <div className="overflow-x-auto">
+          <ScrollableTable>
             <table className="data-table">
               <thead>
                 <tr>
@@ -167,10 +168,10 @@ export default async function DashboardPage() {
                 )}
               </tbody>
             </table>
-          </div>
+          </ScrollableTable>
         </div>
 
-        {/* Client Exposures */}
+        {/* Client Exposures */
         <div className="card">
           <div
             className="px-6 py-4"

@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import TransactionActions from "./TransactionActions";
 import DeleteTxButton from "./DeleteTxButton";
 import ToggleTxType from "./ToggleTxType";
+import ScrollableTable from "@/components/ui/ScrollableTable";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -237,7 +238,7 @@ export default async function PersonDetailPage({
                   </div>
 
                   {/* Transactions */}
-                  <div className="overflow-x-auto">
+                  <ScrollableTable>
                     <table className="data-table">
                       <thead>
                         <tr>
@@ -312,7 +313,7 @@ export default async function PersonDetailPage({
                         ))}
                       </tbody>
                     </table>
-                  </div>
+                </ScrollableTable>
 
                   {/* Notes for month */}
                   {txs.some((tx) => tx.note) && (

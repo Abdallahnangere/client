@@ -3,6 +3,7 @@ import { formatCurrency, formatDateTime, toTitleCase } from "@/lib/utils";
 import Link from "next/link";
 import sql from "@/lib/db";
 import ToggleTxType from "@/app/persons/[id]/ToggleTxType";
+import ScrollableTable from "@/components/ui/ScrollableTable";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -136,7 +137,7 @@ export default async function LedgerPage() {
                 </div>
 
                 {/* Table */}
-                <div className="overflow-x-auto">
+                <ScrollableTable>
                   <table className="data-table">
                     <thead>
                       <tr>
@@ -222,7 +223,7 @@ export default async function LedgerPage() {
                       ))}
                     </tbody>
                   </table>
-                </div>
+                </ScrollableTable>
               </div>
             );
           })}
