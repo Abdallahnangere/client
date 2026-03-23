@@ -11,6 +11,7 @@ interface Transaction {
   receiver: string;
   bank: string | null;
   reference_number: string | null;
+  status: string;
   person_name?: string;
 }
 
