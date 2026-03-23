@@ -1,11 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-
-interface Person {
-  id: number;
-  full_name: string;
-}
+import type { Person } from "@/lib/db";
 
 interface SearchClientsProps {
   persons: Person[];
