@@ -236,8 +236,8 @@ export default async function PersonDetailPage({
                 <div>
                   {filteredMonths.map((month) => {
                     const txs = filteredGrouped[month];
-                    const monthInflow = txs.reduce((sum, tx) => tx.type === "CREDIT" ? sum + parseFloat(tx.amount) : sum, 0);
-                    const monthOutflow = txs.reduce((sum, tx) => tx.type === "DEBIT" ? sum + parseFloat(tx.amount) : sum, 0);
+                    const monthInflow = txs.reduce((sum, tx) => tx.type === "CREDIT" ? sum + parseFloat(tx.amount.toString()) : sum, 0);
+                    const monthOutflow = txs.reduce((sum, tx) => tx.type === "DEBIT" ? sum + parseFloat(tx.amount.toString()) : sum, 0);
 
                     return (
                       <div key={month}>
