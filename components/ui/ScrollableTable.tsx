@@ -49,14 +49,14 @@ export default function ScrollableTable({ children }: { children: React.ReactNod
           width: 28,
           height: 28,
           borderRadius: "50%",
-          border: "1px solid #1A2D4A",
-          background: "#08121F",
-          color: "#C8963C",
+          border: "1px solid var(--border)",
+          background: "var(--surface)",
+          color: "var(--brand)",
           cursor: "pointer",
           transition: "opacity 0.2s, box-shadow 0.2s",
           opacity: canLeft ? 1 : 0,
           pointerEvents: canLeft ? "auto" : "none",
-          boxShadow: canLeft ? "0 0 12px rgba(200,150,60,0.18)" : "none",
+          boxShadow: canLeft ? "0 1px 4px rgba(0,0,0,0.12)" : "none",
         }}
       >
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
@@ -81,14 +81,14 @@ export default function ScrollableTable({ children }: { children: React.ReactNod
           width: 28,
           height: 28,
           borderRadius: "50%",
-          border: "1px solid #1A2D4A",
-          background: "#08121F",
-          color: "#C8963C",
+          border: "1px solid var(--border)",
+          background: "var(--surface)",
+          color: "var(--brand)",
           cursor: "pointer",
           transition: "opacity 0.2s, box-shadow 0.2s",
           opacity: canRight ? 1 : 0,
           pointerEvents: canRight ? "auto" : "none",
-          boxShadow: canRight ? "0 0 12px rgba(200,150,60,0.18)" : "none",
+          boxShadow: canRight ? "0 1px 4px rgba(0,0,0,0.12)" : "none",
         }}
       >
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
@@ -105,7 +105,7 @@ export default function ScrollableTable({ children }: { children: React.ReactNod
           paddingLeft: 4,
           paddingRight: 4,
           scrollbarWidth: "auto",
-          scrollbarColor: "#1A2D4A #08121F",
+          scrollbarColor: "var(--border-strong) var(--surface-2)",
         }}
       >
         {children}
