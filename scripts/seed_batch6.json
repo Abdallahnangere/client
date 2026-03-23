@@ -1,0 +1,38 @@
+// scripts/seed_batch6.json
+// Batch 6 transactions (#73–#75) for person_id = 1 — JSON reference format
+
+[
+  {
+    "id": 73,
+    "date": null,
+    "type": "DEBIT",
+    "amount": 3429500.0,
+    "sender": "MAHMOUD IBRAHIM WADA",
+    "receiver": "SAID ABDULLAHI ABDULMUDALLIB",
+    "bank": null,
+    "reference": null,
+    "note": "Calculator — expression: 55,233,000 - 51,803,500"
+  },
+  {
+    "id": 74,
+    "date": null,
+    "type": "DEBIT",
+    "amount": 4016307.27,
+    "sender": "MAHMOUD IBRAHIM WADA",
+    "receiver": "SAID ABDULLAHI ABDULMUDALLIB",
+    "bank": null,
+    "reference": null,
+    "note": "Calculator — expression: ...07.26643598615917 - 55,803,500"
+  },
+  {
+    "id": 75,
+    "date": null,
+    "type": "DEBIT",
+    "amount": 5321750.17,
+    "sender": "MAHMOUD IBRAHIM WADA",
+    "receiver": "SAID ABDULLAHI ABDULMUDALLIB",
+    "bank": null,
+    "reference": null,
+    "note": "Calculator — expression: ...50.174216027874564 - 77,138,500"
+  }
+]

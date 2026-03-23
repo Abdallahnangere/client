@@ -6,6 +6,7 @@ import TransactionActions from "./TransactionActions";
 import DeleteTxButton from "./DeleteTxButton";
 import ToggleTxType from "./ToggleTxType";
 import ScrollableTable from "@/components/ui/ScrollableTable";
+import SearchTransactions from "@/components/ui/SearchTransactions";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -90,10 +91,10 @@ export default async function PersonDetailPage({
                 </h1>
                 <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1.5">
                   {person.phone && (
-                    <span className="text-xs" style={{ color: "var(--text-2)" }}>ðŸ“± {person.phone}</span>
+                    <span className="text-xs" style={{ color: "var(--text-2)" }}>Call: {person.phone}</span>
                   )}
                   {person.email && (
-                    <span className="text-xs" style={{ color: "var(--text-2)" }}>âœ‰ {person.email}</span>
+                    <span className="text-xs" style={{ color: "var(--text-2)" }}>Email: {person.email}</span>
                   )}
                 </div>
                 {person.notes && (
@@ -202,118 +203,150 @@ export default async function PersonDetailPage({
             <p className="text-xs mt-1" style={{ color: "var(--text-3)" }}>Record the first transaction above</p>
           </div>
         ) : (
-          <div>
-            {months.map((month) => {
-              const txs = grouped[month];
-              const monthInflow = txs.reduce((sum, tx) => tx.type === "CREDIT" ? sum + parseFloat(tx.amount) : sum, 0);
-              const monthOutflow = txs.reduce((sum, tx) => tx.type === "DEBIT" ? sum + parseFloat(tx.amount) : sum, 0);
+          <SearchTransactions transactions={transactions}>
+            {(filtered) => {
+              if (filtered.length === 0) {
+                return (
+                  <div className="flex flex-col items-center justify-center py-16">
+                    <div className="opacity-10 mb-4" style={{ color: "var(--text-2)" }}>
+                      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                        <rect x="4" y="4" width="32" height="32" rx="2" stroke="currentColor" strokeWidth="1.5" />
+                        <path d="M10 14h20M10 20h14M10 26h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
+                      </svg>
+                    </div>
+                    <p className="font-display text-xl font-light" style={{ color: "var(--text-2)" }}>No matching transactions</p>
+                    <p className="text-xs mt-1" style={{ color: "var(--text-3)" }}>Try a different search term</p>
+                  </div>
+                );
+              }
+
+              // Re-group filtered transactions by month
+              const filteredGrouped: Record<string, typeof filtered> = {};
+              for (const tx of filtered) {
+                const key = tx.transaction_date
+                  ? (() => { const d = new Date(tx.transaction_date); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`; })()
+                  : "undated";
+                if (!filteredGrouped[key]) filteredGrouped[key] = [];
+                filteredGrouped[key].push(tx);
+              }
+
+              const filteredMonths = Object.keys(filteredGrouped).sort().reverse();
 
               return (
-                <div key={month}>
-                  {/* Month header */}
-                  <div
-                    className="px-6 py-3 flex items-center justify-between"
-                    style={{ background: "var(--surface-2)", borderBottom: "1px solid var(--border)" }}
-                  >
-                    <span
-                      className="text-[11px] font-semibold tracking-widest uppercase"
-                      style={{ color: "var(--text-2)" }}
-                    >
-                      {monthLabel(month)}
-                    </span>
-                    <div className="flex items-center gap-4 text-[11px] font-mono">
-                      {monthInflow > 0 && (
-                        <span style={{ color: "var(--green)" }}>+{formatCurrency(monthInflow)}</span>
-                      )}
-                      {monthOutflow > 0 && (
-                        <span style={{ color: "var(--red)" }}>âˆ’{formatCurrency(monthOutflow)}</span>
-                      )}
-                    </div>
-                  </div>
+                <div>
+                  {filteredMonths.map((month) => {
+                    const txs = filteredGrouped[month];
+                    const monthInflow = txs.reduce((sum, tx) => tx.type === "CREDIT" ? sum + parseFloat(tx.amount) : sum, 0);
+                    const monthOutflow = txs.reduce((sum, tx) => tx.type === "DEBIT" ? sum + parseFloat(tx.amount) : sum, 0);
 
-                  {/* Transactions */}
-                  <ScrollableTable>
-                    <table className="data-table">
-                      <thead>
-                        <tr>
-                          <th>Date & Time</th>
-                          <th>Type</th>
-                          <th>Sender</th>
-                          <th>Receiver</th>
-                          <th style={{ textAlign: "right" }}>Amount</th>
-                          <th>Bank</th>
-                          <th>Reference</th>
-                          <th>Status</th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {txs.map((tx) => (
-                          <tr key={tx.id}>
-                            <td>
-                              <span className="font-mono text-xs" style={{ color: "var(--text-2)" }}>
-                                {formatDateTime(tx.transaction_date)}
-                              </span>
-                            </td>
-                            <td>
-                              <span className={`badge badge-${tx.type.toLowerCase()}`}>
-                                {tx.type}
-                              </span>
-                            </td>
-                            <td>
-                              <span className="text-xs" style={{ color: "var(--text)" }}>
-                                {toTitleCase(tx.sender)}
-                              </span>
-                            </td>
-                            <td>
-                              <span className="text-xs" style={{ color: "var(--text)" }}>
-                                {toTitleCase(tx.receiver)}
-                              </span>
-                            </td>
-                            <td style={{ textAlign: "right" }}>
-                              <span
-                                className="font-mono text-sm font-medium"
-                                style={{ color: tx.type === "CREDIT" ? "var(--green)" : "var(--red)" }}
-                              >
-                              {tx.type === "CREDIT" ? "+" : "-"}{formatCurrency(tx.amount)}
-                              </span>
-                            </td>
-                            <td>
-                              <span className="text-xs" style={{ color: "var(--text-2)" }}>
-                                {tx.bank || "—"}
-                              </span>
-                            </td>
-                            <td>
-                              {tx.reference_number ? (
-                                <span className="font-mono text-[10px]" style={{ color: "var(--text-3)" }}>
-                                  {tx.reference_number.slice(0, 16)}{tx.reference_number.length > 16 ? "…" : ""}
-                                </span>
-                              ) : (
-                                <span style={{ color: "var(--text-3)" }}>—</span>
-                              )}
-                            </td>
-                            <td>
-                              <span className="badge badge-success text-[9px]">
-                                {tx.status}
-                              </span>
-                            </td>
-                            <td>
-                              <div className="flex items-center gap-1">
-                                <ToggleTxType txId={tx.id} currentType={tx.type as "CREDIT" | "DEBIT"} />
-                                <DeleteTxButton txId={tx.id} />
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                </ScrollableTable>
+                    return (
+                      <div key={month}>
+                        {/* Month header */}
+                        <div
+                          className="px-6 py-3 flex items-center justify-between"
+                          style={{ background: "var(--surface-2)", borderBottom: "1px solid var(--border)" }}
+                        >
+                          <span
+                            className="text-[11px] font-semibold tracking-widest uppercase"
+                            style={{ color: "var(--text-2)" }}
+                          >
+                            {monthLabel(month)}
+                          </span>
+                          <div className="flex items-center gap-4 text-[11px] font-mono">
+                            {monthInflow > 0 && (
+                              <span style={{ color: "var(--green)" }}>+{formatCurrency(monthInflow)}</span>
+                            )}
+                            {monthOutflow > 0 && (
+                              <span style={{ color: "var(--red)" }}>-{formatCurrency(monthOutflow)}</span>
+                            )}
+                          </div>
+                        </div>
 
+                        {/* Transactions */}
+                        <ScrollableTable>
+                          <table className="data-table">
+                            <thead>
+                              <tr>
+                                <th>Date & Time</th>
+                                <th>Type</th>
+                                <th>Sender</th>
+                                <th>Receiver</th>
+                                <th style={{ textAlign: "right" }}>Amount</th>
+                                <th>Bank</th>
+                                <th>Reference</th>
+                                <th>Status</th>
+                                <th></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {txs.map((tx) => (
+                                <tr key={tx.id}>
+                                  <td>
+                                    <span className="font-mono text-xs" style={{ color: "var(--text-2)" }}>
+                                      {formatDateTime(tx.transaction_date)}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span className={`badge badge-${tx.type.toLowerCase()}`}>
+                                      {tx.type}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span className="text-xs" style={{ color: "var(--text)" }}>
+                                      {toTitleCase(tx.sender)}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span className="text-xs" style={{ color: "var(--text)" }}>
+                                      {toTitleCase(tx.receiver)}
+                                    </span>
+                                  </td>
+                                  <td style={{ textAlign: "right" }}>
+                                    <span
+                                      className="font-mono text-sm font-medium"
+                                      style={{ color: tx.type === "CREDIT" ? "var(--green)" : "var(--red)" }}
+                                    >
+                                    {tx.type === "CREDIT" ? "+" : "-"}{formatCurrency(tx.amount)}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span className="text-xs" style={{ color: "var(--text-2)" }}>
+                                      {tx.bank || "—"}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    {tx.reference_number ? (
+                                      <span className="font-mono text-[10px]" style={{ color: "var(--text-3)" }}>
+                                        {tx.reference_number.slice(0, 16)}{tx.reference_number.length > 16 ? "…" : ""}
+                                      </span>
+                                    ) : (
+                                      <span style={{ color: "var(--text-3)" }}>—</span>
+                                    )}
+                                  </td>
+                                  <td>
+                                    <span className="badge badge-success text-[9px]">
+                                      {tx.status}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <div className="flex items-center gap-1">
+                                      <ToggleTxType txId={tx.id} currentType={tx.type as "CREDIT" | "DEBIT"} />
+                                      <DeleteTxButton txId={tx.id} />
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                      </ScrollableTable>
 
+                      </div>
+                    );
+                  })}
                 </div>
               );
-            })}
-          </div>
+            }}
+          </SearchTransactions>
         )}
       </div>
     </div>
