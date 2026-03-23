@@ -158,7 +158,7 @@ export default function Sidebar() {
         {/* Footer */}
         <div className="px-5 py-4" style={{ borderTop: "1px solid var(--sb-border)" }}>
           <p className="text-[9px] font-semibold tracking-widest uppercase" style={{ color: "var(--sb-text)", opacity: .5 }}>
-            Confidential Â· Restricted Access
+            Confidential · Restricted Access
           </p>
         </div>
       </aside>

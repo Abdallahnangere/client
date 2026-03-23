@@ -60,7 +60,7 @@ export default async function PersonDetailPage({
         <Link href="/persons" className="hover:opacity-70 transition-opacity" style={{ color: "var(--brand)" }}>
           Clients
         </Link>
-        <span>â€º</span>
+        <span>›</span>
         <span style={{ color: "var(--text-2)" }}>{toTitleCase(person.full_name)}</span>
       </div>
 
@@ -185,7 +185,7 @@ export default async function PersonDetailPage({
               Transaction Ledger
             </h2>
             <p className="text-xs mt-0.5" style={{ color: "var(--text-3)" }}>
-              {transactions.length} transaction{transactions.length !== 1 ? "s" : ""} Â· chronological
+              {transactions.length} transaction{transactions.length !== 1 ? "s" : ""} · chronological
             </p>
           </div>
         </div>
@@ -275,21 +275,21 @@ export default async function PersonDetailPage({
                                 className="font-mono text-sm font-medium"
                                 style={{ color: tx.type === "CREDIT" ? "var(--green)" : "var(--red)" }}
                               >
-                                {tx.type === "CREDIT" ? "+" : "âˆ’"}{formatCurrency(tx.amount)}
+                              {tx.type === "CREDIT" ? "+" : "-"}{formatCurrency(tx.amount)}
                               </span>
                             </td>
                             <td>
                               <span className="text-xs" style={{ color: "var(--text-2)" }}>
-                                {tx.bank || "â€”"}
+                                {tx.bank || "—"}
                               </span>
                             </td>
                             <td>
                               {tx.reference_number ? (
                                 <span className="font-mono text-[10px]" style={{ color: "var(--text-3)" }}>
-                                  {tx.reference_number.slice(0, 16)}{tx.reference_number.length > 16 ? "â€¦" : ""}
+                                  {tx.reference_number.slice(0, 16)}{tx.reference_number.length > 16 ? "…" : ""}
                                 </span>
                               ) : (
-                                <span style={{ color: "var(--text-3)" }}>â€”</span>
+                                <span style={{ color: "var(--text-3)" }}>—</span>
                               )}
                             </td>
                             <td>

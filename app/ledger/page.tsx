@@ -52,7 +52,7 @@ export default async function LedgerPage() {
             Transaction Ledger
           </h1>
           <p className="mt-1 text-sm" style={{ color: "var(--text-2)" }}>
-            Complete fund activity â€” {totalTx} transactions
+            Complete fund activity — {totalTx} transactions
           </p>
         </div>
       </div>
@@ -128,10 +128,10 @@ export default async function LedgerPage() {
                       <span style={{ color: "var(--green)" }}>+{formatCurrency(monthInflow)}</span>
                     )}
                     {monthOutflow > 0 && (
-                      <span style={{ color: "var(--red)" }}>âˆ’{formatCurrency(monthOutflow)}</span>
+                      <span style={{ color: "var(--red)" }}>-{formatCurrency(monthOutflow)}</span>
                     )}
                     <span style={{ color: monthNet >= 0 ? "var(--green)" : "var(--red)", borderLeft: "1px solid var(--border)", paddingLeft: "1rem" }}>
-                      Net: {monthNet >= 0 ? "+" : "âˆ’"}{formatCurrency(Math.abs(monthNet))}
+                      Net: {monthNet >= 0 ? "+" : "-"}{formatCurrency(Math.abs(monthNet))}
                     </span>
                   </div>
                 </div>
@@ -189,19 +189,19 @@ export default async function LedgerPage() {
                               className="font-mono text-sm font-medium"
                               style={{ color: tx.type === "CREDIT" ? "var(--green)" : "var(--red)" }}
                             >
-                              {tx.type === "CREDIT" ? "+" : "âˆ’"}{formatCurrency(tx.amount)}
+                              {tx.type === "CREDIT" ? "+" : "-"}{formatCurrency(tx.amount)}
                             </span>
                           </td>
                           <td>
-                            <span className="text-xs" style={{ color: "var(--text-2)" }}>{tx.bank || "â€”"}</span>
+                            <span className="text-xs" style={{ color: "var(--text-2)" }}>{tx.bank || "—"}</span>
                           </td>
                           <td>
                             {tx.reference_number ? (
                               <span className="font-mono text-[10px]" style={{ color: "var(--text-3)" }}>
-                                {tx.reference_number.slice(0, 14)}{tx.reference_number.length > 14 ? "â€¦" : ""}
+                                {tx.reference_number.slice(0, 14)}{tx.reference_number.length > 14 ? "…" : ""}
                               </span>
                             ) : (
-                              <span style={{ color: "var(--text-3)" }}>â€”</span>
+                              <span style={{ color: "var(--text-3)" }}>—</span>
                             )}
                           </td>
                           <td>
@@ -213,7 +213,7 @@ export default async function LedgerPage() {
                                 {tx.note}
                               </span>
                             ) : (
-                              <span style={{ color: "var(--text-3)" }}>â€”</span>
+                              <span style={{ color: "var(--text-3)" }}>—</span>
                             )}
                           </td>
                           <td>

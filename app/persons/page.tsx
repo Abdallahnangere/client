@@ -137,7 +137,7 @@ export default async function PersonsPage() {
 
                       {person.notes && (
                         <p className="text-xs mt-1.5 font-mono" style={{ color: "var(--text-3)" }}>
-                          {person.notes.slice(0, 80)}{person.notes.length > 80 ? "â€¦" : ""}
+                          {person.notes.slice(0, 80)}{person.notes.length > 80 ? "…" : ""}
                         </p>
                       )}
                     </div>

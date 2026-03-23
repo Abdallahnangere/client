@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   DESIGN TOKENS  â€” bank-grade, clean corporate light theme
+   DESIGN TOKENS  — bank-grade, clean corporate light theme
    â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 :root {
   /* Surfaces */
@@ -21,7 +21,7 @@
   --text-2:          #52637A;
   --text-3:          #8A9BB4;
 
-  /* Brand â€” institutional blue */
+  /* Brand — institutional blue */
   --brand:           #1B4FD8;
   --brand-hover:     #1540B8;
   --brand-light:     #EBF2FF;
@@ -35,7 +35,7 @@
   --red-bg:          #FDF2F2;
   --red-border:      #F0BCBC;
 
-  /* Sidebar (stays dark â€” Stripe/Linear pattern) */
+  /* Sidebar (stays dark — Stripe/Linear pattern) */
   --sb-bg:           #0D1421;
   --sb-surface:      #18243A;
   --sb-border:       #1E2E45;
@@ -47,7 +47,7 @@
   /* Radii */
   --r-xs: 3px; --r-sm: 6px; --r: 10px; --r-lg: 14px; --r-xl: 20px;
 
-  /* Shadows â€” very subtle for clean look */
+  /* Shadows — very subtle for clean look */
   --shadow-xs: 0 1px 2px rgba(13,20,33,.05);
   --shadow-sm: 0 1px 3px rgba(13,20,33,.07), 0 1px 2px rgba(13,20,33,.04);
   --shadow-md: 0 4px 8px rgba(13,20,33,.07), 0 2px 4px rgba(13,20,33,.04);
@@ -130,7 +130,7 @@ body {
   box-shadow: var(--shadow-md);
 }
 
-/* Stat Cards â€” left accent strip, clean & flat */
+/* Stat Cards — left accent strip, clean & flat */
 .stat-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -187,7 +187,7 @@ body {
 }
 .btn:disabled { opacity: .4; cursor: not-allowed; pointer-events: none; }
 
-/* Primary â€” institutional blue (class kept as btn-gold for back-compat) */
+/* Primary — institutional blue (class kept as btn-gold for back-compat) */
 .btn-gold {
   background: var(--brand);
   color: #FFFFFF;
