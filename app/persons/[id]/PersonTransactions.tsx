@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { formatCurrency, formatDateTime, toTitleCase } from "@/lib/utils";
 import ToggleTxType from "./ToggleTxType";
 import DeleteTxButton from "./DeleteTxButton";
@@ -39,7 +40,11 @@ function monthLabel(key: string): string {
 }
 
 export default function PersonTransactions({ transactions }: PersonTransactionsProps) {
+  const router = useRouter();
   const [query, setQuery] = useState("");
+  const [selectMode, setSelectMode] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
+  const [deleting, setDeleting] = useState(false);
 
   const filtered = useMemo(() => {
     if (!query.trim()) return transactions;
@@ -71,10 +76,56 @@ export default function PersonTransactions({ transactions }: PersonTransactionsP
     [grouped]
   );
 
+  function toggleSelect(id: number) {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+  function toggleMonthAll(txs: Transaction[]) {
+    const ids = txs.map((t) => t.id);
+    const allSelected = ids.every((id) => selectedIds.has(id));
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (allSelected) ids.forEach((id) => next.delete(id));
+      else ids.forEach((id) => next.add(id));
+      return next;
+    });
+  }
+
+  function exitSelectMode() {
+    setSelectMode(false);
+    setSelectedIds(new Set());
+  }
+
+  async function handleBatchDelete() {
+    if (selectedIds.size === 0) return;
+    const count = selectedIds.size;
+    if (!confirm(`Delete ${count} transaction${count > 1 ? "s" : ""}? This cannot be undone.`)) return;
+    setDeleting(true);
+    try {
+      const res = await fetch("/api/transactions/batch-delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: Array.from(selectedIds) }),
+      });
+      if (!res.ok) throw new Error("Failed");
+      exitSelectMode();
+      router.refresh();
+    } catch {
+      alert("Failed to delete transactions. Please try again.");
+    } finally {
+      setDeleting(false);
+    }
+  }
+
   return (
-    <div>
-      {/* Search bar */}
-      <div className="px-6 pt-4 pb-0">
+    <div style={{ position: "relative", paddingBottom: selectedIds.size > 0 ? "72px" : undefined }}>
+      {/* Search bar + select mode toggle */}
+      <div className="px-6 pt-4 pb-0 flex items-start gap-3">
         <input
           type="text"
           placeholder="Search by ID, sender, receiver, bank, reference, amount..."
@@ -82,12 +133,29 @@ export default function PersonTransactions({ transactions }: PersonTransactionsP
           onChange={(e) => setQuery(e.target.value)}
           className="input w-full"
         />
-        {query && (
-          <p className="mt-2 text-xs" style={{ color: "var(--text-3)" }}>
-            Showing {filtered.length} of {transactions.length} transactions
-          </p>
-        )}
+        <button
+          onClick={() => { if (selectMode) exitSelectMode(); else setSelectMode(true); }}
+          style={{
+            flexShrink: 0,
+            padding: "8px 14px",
+            fontSize: "12px",
+            fontWeight: 600,
+            borderRadius: "6px",
+            border: "1px solid var(--border)",
+            background: selectMode ? "var(--surface-2)" : "transparent",
+            color: selectMode ? "var(--red)" : "var(--text-2)",
+            cursor: "pointer",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {selectMode ? "Cancel" : "Select"}
+        </button>
       </div>
+      {query && (
+        <p className="mt-2 text-xs px-6" style={{ color: "var(--text-3)" }}>
+          Showing {filtered.length} of {transactions.length} transactions
+        </p>
+      )}
 
       {/* Results */}
       {filtered.length === 0 ? (
@@ -101,6 +169,9 @@ export default function PersonTransactions({ transactions }: PersonTransactionsP
             const txs = grouped[month];
             const inflow = txs.reduce((s, t) => t.type === "CREDIT" ? s + parseFloat(String(t.amount)) : s, 0);
             const outflow = txs.reduce((s, t) => t.type === "DEBIT" ? s + parseFloat(String(t.amount)) : s, 0);
+            const monthIds = txs.map((t) => t.id);
+            const allMonthSelected = selectMode && monthIds.length > 0 && monthIds.every((id) => selectedIds.has(id));
+            const someMonthSelected = selectMode && monthIds.some((id) => selectedIds.has(id));
 
             return (
               <div key={month}>
@@ -109,12 +180,24 @@ export default function PersonTransactions({ transactions }: PersonTransactionsP
                   className="px-6 py-3 flex items-center justify-between"
                   style={{ background: "var(--surface-2)", borderBottom: "1px solid var(--border)" }}
                 >
-                  <span
-                    className="text-xs font-semibold tracking-widest uppercase"
-                    style={{ color: "var(--text-2)" }}
-                  >
-                    {monthLabel(month)}
-                  </span>
+                  <div className="flex items-center gap-3">
+                    {selectMode && (
+                      <input
+                        type="checkbox"
+                        checked={allMonthSelected}
+                        ref={(el) => { if (el) el.indeterminate = someMonthSelected && !allMonthSelected; }}
+                        onChange={() => toggleMonthAll(txs)}
+                        style={{ width: "15px", height: "15px", cursor: "pointer", accentColor: "var(--accent)" }}
+                        title="Select all in this month"
+                      />
+                    )}
+                    <span
+                      className="text-xs font-semibold tracking-widest uppercase"
+                      style={{ color: "var(--text-2)" }}
+                    >
+                      {monthLabel(month)}
+                    </span>
+                  </div>
                   <div className="flex items-center gap-4 text-xs font-mono">
                     {inflow > 0 && (
                       <span style={{ color: "var(--green)" }}>+{formatCurrency(inflow)}</span>
@@ -130,6 +213,7 @@ export default function PersonTransactions({ transactions }: PersonTransactionsP
                   <table className="data-table">
                     <thead>
                       <tr>
+                        {selectMode && <th style={{ width: "36px" }}></th>}
                         <th>Date</th>
                         <th>Type</th>
                         <th>Sender</th>
@@ -143,7 +227,20 @@ export default function PersonTransactions({ transactions }: PersonTransactionsP
                     </thead>
                     <tbody>
                       {txs.map((tx) => (
-                        <tr key={tx.id}>
+                        <tr
+                          key={tx.id}
+                          style={selectedIds.has(tx.id) ? { background: "rgba(239,68,68,0.06)" } : undefined}
+                        >
+                          {selectMode && (
+                            <td>
+                              <input
+                                type="checkbox"
+                                checked={selectedIds.has(tx.id)}
+                                onChange={() => toggleSelect(tx.id)}
+                                style={{ width: "15px", height: "15px", cursor: "pointer", accentColor: "var(--accent)" }}
+                              />
+                            </td>
+                          )}
                           <td>
                             <span className="font-mono text-xs" style={{ color: "var(--text-2)" }}>
                               {formatDateTime(tx.transaction_date)}
@@ -192,10 +289,12 @@ export default function PersonTransactions({ transactions }: PersonTransactionsP
                             </span>
                           </td>
                           <td>
-                            <div className="flex items-center gap-1">
-                              <ToggleTxType txId={tx.id} currentType={tx.type as "CREDIT" | "DEBIT"} />
-                              <DeleteTxButton txId={tx.id} />
-                            </div>
+                            {!selectMode && (
+                              <div className="flex items-center gap-1">
+                                <ToggleTxType txId={tx.id} currentType={tx.type as "CREDIT" | "DEBIT"} />
+                                <DeleteTxButton txId={tx.id} />
+                              </div>
+                            )}
                           </td>
                         </tr>
                       ))}
@@ -205,6 +304,62 @@ export default function PersonTransactions({ transactions }: PersonTransactionsP
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* Batch action bar */}
+      {selectMode && selectedIds.size > 0 && (
+        <div
+          style={{
+            position: "fixed",
+            bottom: "24px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            zIndex: 50,
+            display: "flex",
+            alignItems: "center",
+            gap: "12px",
+            padding: "12px 20px",
+            borderRadius: "10px",
+            background: "var(--surface)",
+            border: "1px solid var(--border)",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.25)",
+          }}
+        >
+          <span style={{ fontSize: "13px", fontWeight: 500, color: "var(--text)" }}>
+            {selectedIds.size} selected
+          </span>
+          <button
+            onClick={handleBatchDelete}
+            disabled={deleting}
+            style={{
+              padding: "7px 16px",
+              fontSize: "13px",
+              fontWeight: 600,
+              borderRadius: "6px",
+              border: "none",
+              background: "var(--red)",
+              color: "#fff",
+              cursor: deleting ? "not-allowed" : "pointer",
+              opacity: deleting ? 0.6 : 1,
+            }}
+          >
+            {deleting ? "Deleting..." : "Delete Selected"}
+          </button>
+          <button
+            onClick={exitSelectMode}
+            style={{
+              padding: "7px 12px",
+              fontSize: "13px",
+              borderRadius: "6px",
+              border: "1px solid var(--border)",
+              background: "transparent",
+              color: "var(--text-2)",
+              cursor: "pointer",
+            }}
+          >
+            Cancel
+          </button>
         </div>
       )}
     </div>

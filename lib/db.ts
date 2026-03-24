@@ -160,6 +160,12 @@ export async function deleteTransaction(id: number): Promise<boolean> {
   return rows.length > 0;
 }
 
+export async function deleteManyTransactions(ids: number[]): Promise<number> {
+  if (ids.length === 0) return 0;
+  const rows = await sql`DELETE FROM transactions WHERE id = ANY(${ids}) RETURNING id` as unknown as {id:number}[];
+  return rows.length;
+}
+
 export async function toggleTransactionType(id: number): Promise<Transaction | null> {
   const rows = await sql`
     UPDATE transactions
