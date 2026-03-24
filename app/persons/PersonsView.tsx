@@ -53,10 +53,10 @@ export default function PersonsView({ persons, summaryMap }: PersonsViewProps) {
         <div className="space-y-3">
           {filtered.map((person) => {
             const s = summaryMap[person.id];
-            const deficit = s ? parseFloat(String(s.deficit)) : 0;
-            const surplus = s ? parseFloat(String(s.surplus)) : 0;
             const outflow = s ? parseFloat(String(s.total_outflow)) : 0;
             const inflow = s ? parseFloat(String(s.total_inflow)) : 0;
+            const outstanding = Math.max(inflow - outflow, 0);
+            const surplus = Math.max(outflow - inflow, 0);
             const txCount = s ? parseInt(String(s.transaction_count)) : 0;
 
             return (
@@ -65,7 +65,7 @@ export default function PersonsView({ persons, summaryMap }: PersonsViewProps) {
                 <div
                   className="absolute left-0 top-0 bottom-0 w-0.5 rounded-l"
                   style={{
-                    background: deficit > 0 ? "var(--red)" : surplus > 0 ? "var(--green)" : "var(--brand)",
+                    background: outstanding > 0 ? "var(--red)" : surplus > 0 ? "var(--green)" : "var(--brand)",
                   }}
                 />
 
@@ -137,13 +137,13 @@ export default function PersonsView({ persons, summaryMap }: PersonsViewProps) {
                       </div>
                       <div>
                         <p className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: "var(--text-3)" }}>
-                          {deficit > 0 ? "Owed" : "Surplus"}
+                          {outstanding > 0 ? "Outstanding" : surplus > 0 ? "Surplus" : "Settled"}
                         </p>
                         <p
                           className="font-mono text-sm font-medium"
-                          style={{ color: deficit > 0 ? "var(--red)" : "var(--green)" }}
+                          style={{ color: outstanding > 0 ? "var(--red)" : surplus > 0 ? "var(--green)" : "var(--text-3)" }}
                         >
-                          {formatCurrency(deficit > 0 ? deficit : surplus)}
+                          {formatCurrency(outstanding > 0 ? outstanding : surplus)}
                         </p>
                       </div>
                     </div>

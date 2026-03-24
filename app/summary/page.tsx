@@ -10,8 +10,16 @@ export default async function SummaryPage() {
 
   const totalCredit = summaries.reduce((s, r) => s + parseFloat(r.total_inflow), 0);
   const totalDebit = summaries.reduce((s, r) => s + parseFloat(r.total_outflow), 0);
-  const totalOutstanding = summaries.reduce((s, r) => s + parseFloat(r.deficit), 0);
-  const totalSurplus = summaries.reduce((s, r) => s + parseFloat(r.surplus), 0);
+  const totalOutstanding = summaries.reduce((s, r) => {
+    const inflow = parseFloat(r.total_inflow);
+    const outflow = parseFloat(r.total_outflow);
+    return s + Math.max(inflow - outflow, 0);
+  }, 0);
+  const totalSurplus = summaries.reduce((s, r) => {
+    const inflow = parseFloat(r.total_inflow);
+    const outflow = parseFloat(r.total_outflow);
+    return s + Math.max(outflow - inflow, 0);
+  }, 0);
 
   return (
     <div className="min-h-screen p-6 lg:p-10">
@@ -117,8 +125,10 @@ export default async function SummaryPage() {
                 </tr>
               ) : (
                 summaries.map((s, i) => {
-                  const deficit = parseFloat(s.deficit);
-                  const surplus = parseFloat(s.surplus);
+                  const inflow = parseFloat(s.total_inflow);
+                  const outflow = parseFloat(s.total_outflow);
+                  const outstanding = Math.max(inflow - outflow, 0);
+                  const surplus = Math.max(outflow - inflow, 0);
                   return (
                     <tr key={s.person_id}>
                       <td>
@@ -150,9 +160,9 @@ export default async function SummaryPage() {
                         </span>
                       </td>
                       <td style={{ textAlign: "right" }}>
-                        {deficit > 0 ? (
+                        {outstanding > 0 ? (
                           <span className="font-mono text-sm font-medium" style={{ color: "var(--red)" }}>
-                            {formatCurrency(deficit)}
+                            {formatCurrency(outstanding)}
                           </span>
                         ) : (
                           <span className="font-mono text-xs" style={{ color: "var(--text-3)" }}>—</span>

@@ -5,26 +5,34 @@ import * as XLSX from "xlsx";
 export async function GET() {
   const summaries = await getPersonBalanceSummaries();
 
-  const rows = summaries.map((s, i) => ({
-    "S/N": i + 1,
-    "Full Name": s.full_name,
-    "Credit (NGN)": parseFloat(s.total_inflow),
-    "Debit (NGN)": parseFloat(s.total_outflow),
-    "Outstanding (NGN)": parseFloat(s.deficit),
-    "Surplus (NGN)": parseFloat(s.surplus),
-    "Net Balance (NGN)": parseFloat(s.net_balance),
-    "Transactions": parseInt(s.transaction_count),
-  }));
+  const rows = summaries.map((s, i) => {
+    const inflow = parseFloat(s.total_inflow);
+    const outflow = parseFloat(s.total_outflow);
+    const outstanding = Math.max(inflow - outflow, 0);
+    const surplus = Math.max(outflow - inflow, 0);
+    const net = inflow - outflow;
+
+    return {
+      "S/N": i + 1,
+      "Full Name": s.full_name,
+      "Credit (NGN)": inflow,
+      "Debit (NGN)": outflow,
+      "Outstanding (NGN)": outstanding,
+      "Surplus (NGN)": surplus,
+      "Net Balance (NGN)": net,
+      "Transactions": parseInt(s.transaction_count),
+    };
+  });
 
   // Totals row
   rows.push({
     "S/N": "" as any,
     "Full Name": "TOTAL",
-    "Credit (NGN)": summaries.reduce((a, s) => a + parseFloat(s.total_inflow), 0),
-    "Debit (NGN)": summaries.reduce((a, s) => a + parseFloat(s.total_outflow), 0),
-    "Outstanding (NGN)": summaries.reduce((a, s) => a + parseFloat(s.deficit), 0),
-    "Surplus (NGN)": summaries.reduce((a, s) => a + parseFloat(s.surplus), 0),
-    "Net Balance (NGN)": summaries.reduce((a, s) => a + parseFloat(s.net_balance), 0),
+    "Credit (NGN)": rows.reduce((a, r) => a + (typeof r["Credit (NGN)"] === "number" ? r["Credit (NGN)"] : 0), 0),
+    "Debit (NGN)": rows.reduce((a, r) => a + (typeof r["Debit (NGN)"] === "number" ? r["Debit (NGN)"] : 0), 0),
+    "Outstanding (NGN)": rows.reduce((a, r) => a + (typeof r["Outstanding (NGN)"] === "number" ? r["Outstanding (NGN)"] : 0), 0),
+    "Surplus (NGN)": rows.reduce((a, r) => a + (typeof r["Surplus (NGN)"] === "number" ? r["Surplus (NGN)"] : 0), 0),
+    "Net Balance (NGN)": rows.reduce((a, r) => a + (typeof r["Net Balance (NGN)"] === "number" ? r["Net Balance (NGN)"] : 0), 0),
     "Transactions": summaries.reduce((a, s) => a + parseInt(s.transaction_count), 0),
   });
 

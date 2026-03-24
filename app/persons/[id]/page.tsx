@@ -26,7 +26,8 @@ export default async function PersonDetailPage({
 
   const inflow = summary ? parseFloat(String(summary.total_inflow)) : 0;
   const outflow = summary ? parseFloat(String(summary.total_outflow)) : 0;
-  const netBalance = inflow - outflow;
+  const outstanding = Math.max(inflow - outflow, 0);
+  const surplus = Math.max(outflow - inflow, 0);
 
   return (
     <div className="min-h-screen p-6 lg:p-10">
@@ -105,19 +106,19 @@ export default async function PersonDetailPage({
               </div>
               <div
                 className="text-center lg:text-right px-4 py-0 rounded-lg"
-                style={{ borderLeft: "2px solid " + (netBalance < 0 ? "var(--red-border)" : "var(--green-border)") }}
+                style={{ borderLeft: "2px solid " + (outstanding > 0 ? "var(--red-border)" : surplus > 0 ? "var(--green-border)" : "var(--border)") }}
               >
                 <p className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: "var(--text-3)" }}>
-                  Net Position
+                  {outstanding > 0 ? "Outstanding" : surplus > 0 ? "Surplus" : "Settled"}
                 </p>
                 <p
                   className="font-mono text-lg font-medium"
-                  style={{ color: netBalance < 0 ? "var(--red)" : "var(--green)" }}
+                  style={{ color: outstanding > 0 ? "var(--red)" : surplus > 0 ? "var(--green)" : "var(--text-2)" }}
                 >
-                  {formatCurrency(Math.abs(netBalance))}
+                  {formatCurrency(outstanding > 0 ? outstanding : surplus)}
                 </p>
                 <p className="text-xs" style={{ color: "var(--text-3)" }}>
-                  {netBalance < 0 ? "fund owes client" : "client owes fund"}
+                  {outstanding > 0 ? "owed to fund" : surplus > 0 ? "fund surplus" : "no outstanding"}
                 </p>
               </div>
             </div>
