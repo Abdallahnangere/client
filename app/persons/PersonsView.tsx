@@ -166,3 +166,6 @@ export default function PersonsView({ persons, summaryMap }: PersonsViewProps) {
           })}
         </div>
       )}
+    </div>
+  );
+}
