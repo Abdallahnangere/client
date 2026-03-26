@@ -10,7 +10,7 @@ export default async function SummaryPage() {
 
   const totalCredit = summaries.reduce((s, r) => s + parseFloat(r.total_inflow), 0);
   const totalDebit = summaries.reduce((s, r) => s + parseFloat(r.total_outflow), 0);
-  const totalOutstanding = summaries.reduce((s, r) => {
+  const totalDeficit = summaries.reduce((s, r) => {
     const inflow = parseFloat(r.total_inflow);
     const outflow = parseFloat(r.total_outflow);
     return s + Math.max(inflow - outflow, 0);
@@ -79,12 +79,12 @@ export default async function SummaryPage() {
         </div>
         <div className="stat-card stat-card-red">
           <p className="text-[10px] font-semibold tracking-widest uppercase mb-1.5" style={{ color: "var(--text-3)" }}>
-            Outstanding
+            Total Deficit
           </p>
           <p className="font-mono text-lg font-medium" style={{ color: "var(--red)" }}>
-            {formatCurrency(totalOutstanding)}
+            {formatCurrency(totalDeficit)}
           </p>
-          <p className="text-[10px] mt-0.5" style={{ color: "var(--text-3)" }}>total owed to fund</p>
+          <p className="text-[10px] mt-0.5" style={{ color: "var(--text-3)" }}>total owed to clients</p>
         </div>
       </div>
 
@@ -110,7 +110,7 @@ export default async function SummaryPage() {
                 <th>Full Name</th>
                 <th style={{ textAlign: "right" }}>Credit (₦)</th>
                 <th style={{ textAlign: "right" }}>Debit (₦)</th>
-                <th style={{ textAlign: "right" }}>Outstanding (₦)</th>
+                <th style={{ textAlign: "right" }}>Deficit (₦)</th>
                 <th style={{ textAlign: "right" }}>Surplus (₦)</th>
                 <th style={{ textAlign: "center" }}>Txns</th>
                 <th></th>
@@ -127,7 +127,7 @@ export default async function SummaryPage() {
                 summaries.map((s, i) => {
                   const inflow = parseFloat(s.total_inflow);
                   const outflow = parseFloat(s.total_outflow);
-                  const outstanding = Math.max(inflow - outflow, 0);
+                  const deficit = Math.max(inflow - outflow, 0);
                   const surplus = Math.max(outflow - inflow, 0);
                   return (
                     <tr key={s.person_id}>
@@ -156,13 +156,13 @@ export default async function SummaryPage() {
                       </td>
                       <td style={{ textAlign: "right" }}>
                         <span className="font-mono text-sm font-medium" style={{ color: "var(--red)" }}>
-                          {formatCurrency(s.total_outflow)}
+                          {formatCurrency(totalDeficit)}
                         </span>
                       </td>
                       <td style={{ textAlign: "right" }}>
-                        {outstanding > 0 ? (
+                        {deficit > 0 ? (
                           <span className="font-mono text-sm font-medium" style={{ color: "var(--red)" }}>
-                            {formatCurrency(outstanding)}
+                            {formatCurrency(deficit)}
                           </span>
                         ) : (
                           <span className="font-mono text-xs" style={{ color: "var(--text-3)" }}>—</span>
@@ -218,7 +218,7 @@ export default async function SummaryPage() {
                   </td>
                   <td style={{ textAlign: "right" }}>
                     <span className="font-mono text-sm font-semibold" style={{ color: "var(--red)" }}>
-                      {formatCurrency(totalOutstanding)}
+                      {formatCurrency(totalDeficit)}
                     </span>
                   </td>
                   <td style={{ textAlign: "right" }}>

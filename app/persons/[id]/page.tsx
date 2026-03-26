@@ -26,7 +26,7 @@ export default async function PersonDetailPage({
 
   const inflow = summary ? parseFloat(String(summary.total_inflow)) : 0;
   const outflow = summary ? parseFloat(String(summary.total_outflow)) : 0;
-  const outstanding = Math.max(inflow - outflow, 0);
+  const deficit = Math.max(inflow - outflow, 0);
   const surplus = Math.max(outflow - inflow, 0);
 
   return (
@@ -106,19 +106,19 @@ export default async function PersonDetailPage({
               </div>
               <div
                 className="text-center lg:text-right px-4 py-0 rounded-lg"
-                style={{ borderLeft: "2px solid " + (outstanding > 0 ? "var(--red-border)" : surplus > 0 ? "var(--green-border)" : "var(--border)") }}
+                style={{ borderLeft: "2px solid " + (deficit > 0 ? "var(--red-border)" : surplus > 0 ? "var(--green-border)" : "var(--border)") }}
               >
                 <p className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: "var(--text-3)" }}>
-                  {outstanding > 0 ? "Outstanding" : surplus > 0 ? "Surplus" : "Settled"}
+                  {deficit > 0 ? "Deficit" : surplus > 0 ? "Surplus" : "Settled"}
                 </p>
                 <p
                   className="font-mono text-lg font-medium"
-                  style={{ color: outstanding > 0 ? "var(--red)" : surplus > 0 ? "var(--green)" : "var(--text-2)" }}
+                  style={{ color: deficit > 0 ? "var(--red)" : surplus > 0 ? "var(--green)" : "var(--text-2)" }}
                 >
-                  {formatCurrency(outstanding > 0 ? outstanding : surplus)}
+                  {formatCurrency(deficit > 0 ? deficit : surplus)}
                 </p>
                 <p className="text-xs" style={{ color: "var(--text-3)" }}>
-                  {outstanding > 0 ? "owed to fund" : surplus > 0 ? "fund surplus" : "no outstanding"}
+                  {deficit > 0 ? "fund owes client" : surplus > 0 ? "fund surplus" : "no outstanding"}
                 </p>
               </div>
             </div>

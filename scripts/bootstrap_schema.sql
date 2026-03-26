@@ -42,9 +42,9 @@ SELECT
   p.full_name,
   t.total_inflow,
   t.total_outflow,
-  (t.total_inflow - t.total_outflow) AS net_balance,
-  GREATEST((t.total_inflow - t.total_outflow), 0) AS surplus,
-  GREATEST((t.total_outflow - t.total_inflow), 0) AS deficit,
+  (t.total_outflow - t.total_inflow) AS net_balance,
+  GREATEST((t.total_outflow - t.total_inflow), 0) AS surplus,
+  GREATEST((t.total_inflow - t.total_outflow), 0) AS deficit,
   CASE
     WHEN t.total_inflow = 0 THEN NULL
     ELSE ROUND(((t.total_inflow - t.total_outflow) / t.total_inflow) * 100, 2)

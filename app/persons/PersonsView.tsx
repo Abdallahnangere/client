@@ -53,10 +53,8 @@ export default function PersonsView({ persons, summaryMap }: PersonsViewProps) {
         <div className="space-y-3">
           {filtered.map((person) => {
             const s = summaryMap[person.id];
-            const outflow = s ? parseFloat(String(s.total_outflow)) : 0;
-            const inflow = s ? parseFloat(String(s.total_inflow)) : 0;
-            const outstanding = Math.max(inflow - outflow, 0);
-            const surplus = Math.max(outflow - inflow, 0);
+            const deficit = s ? parseFloat(String(s.deficit)) : 0;
+            const surplus = s ? parseFloat(String(s.surplus)) : 0;
             const txCount = s ? parseInt(String(s.transaction_count)) : 0;
 
             return (
@@ -65,7 +63,7 @@ export default function PersonsView({ persons, summaryMap }: PersonsViewProps) {
                 <div
                   className="absolute left-0 top-0 bottom-0 w-0.5 rounded-l"
                   style={{
-                    background: outstanding > 0 ? "var(--red)" : surplus > 0 ? "var(--green)" : "var(--brand)",
+                    background: deficit > 0 ? "var(--red)" : surplus > 0 ? "var(--green)" : "var(--brand)",
                   }}
                 />
 
