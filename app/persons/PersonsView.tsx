@@ -36,6 +36,21 @@ export default function PersonsView({ persons, summaryMap }: PersonsViewProps) {
           onChange={(e) => setQuery(e.target.value)}
           className="input w-full"
         />
+        {query && (
+          <p className="mt-2 text-sm" style={{ color: "var(--text-3)" }}>
+            Found {filtered.length} of {persons.length} clients
+          </p>
+        )}
+      </div>
+
+      {/* Client list */}
+      {filtered.length === 0 ? (
+        <div className="card flex flex-col items-center justify-center py-16">
+          <p className="font-display text-xl font-light" style={{ color: "var(--text-2)" }}>No matching clients</p>
+          <p className="text-xs mt-1" style={{ color: "var(--text-3)" }}>Try a different search term</p>
+        </div>
+      ) : (
+        <div className="space-y-3">
           {filtered.map((person) => {
             const s = summaryMap[person.id];
             const inflow = s ? parseFloat(s.total_inflow) : 0;
@@ -149,3 +164,5 @@ export default function PersonsView({ persons, summaryMap }: PersonsViewProps) {
               </div>
             );
           })}
+        </div>
+      )}
