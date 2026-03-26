@@ -199,6 +199,13 @@ export default async function DashboardPage() {
                 const pct = deficit > 0
                   ? (inflow > 0 ? Math.min((deficit / inflow) * 100, 100) : 100)
                   : (outflow > 0 ? Math.min((surplus / outflow) * 100, 100) : 0);
+
+                return (
+                  <Link
+                    key={s.person_id}
+                    href={`/persons/${s.person_id}`}
+                    className="block p-3 rounded-xl transition-colors hover:bg-[var(--brand-light)]"
+                    style={{ border: "1px solid var(--border)" }}
                   >
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <div className="flex items-center gap-2">
