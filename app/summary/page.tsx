@@ -84,7 +84,7 @@ export default async function SummaryPage() {
           <p className="font-mono text-lg font-medium" style={{ color: "var(--red)" }}>
             {formatCurrency(totalDeficit)}
           </p>
-          <p className="text-[10px] mt-0.5" style={{ color: "var(--text-3)" }}>total owed to clients</p>
+          <p className="text-[10px] mt-0.5" style={{ color: "var(--text-3)" }}>total client deficit (owed by fund)</p>
         </div>
       </div>
 
@@ -156,7 +156,7 @@ export default async function SummaryPage() {
                       </td>
                       <td style={{ textAlign: "right" }}>
                         <span className="font-mono text-sm font-medium" style={{ color: "var(--red)" }}>
-                          {formatCurrency(totalDeficit)}
+                          {formatCurrency(s.total_outflow)}
                         </span>
                       </td>
                       <td style={{ textAlign: "right" }}>
