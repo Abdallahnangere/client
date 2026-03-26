@@ -1,0 +1,167 @@
+-- ============================================================
+-- Capital Management System
+-- Transactions Batch 4 for SADIQ MUHAMMAD KABIR (person_id = 5)
+-- Transactions #1 -- #20 (deduplicated)  |  May 2025 -- Oct 2025
+-- All DEBIT
+-- Sources: OPay, ALAT/WEMA, Kuda, TAJBank
+-- Removed duplicates from source set: #6, #9, #12
+-- ============================================================
+
+INSERT INTO persons (id, full_name, phone, email, notes, created_at)
+VALUES
+(5, 'Sadiq Muhammad Kabir', NULL, NULL, NULL, NOW())
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO transactions
+    (person_id, type, amount, sender, receiver, transaction_date, bank, reference_number, status, note)
+VALUES
+
+-- #1 | May 12, 2025 14:40 | NGN 300,000
+(5, 'DEBIT', 300000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'SADIQ MOHAMMAD KABIR',
+ '2025-05-12 02:40:00+01',
+ 'ALAT', '0000172505121440299435944391113', 'SUCCESSFUL',
+ 'ALAT NIP TRANSFER TO Opay'),
+
+-- #2 | May 13, 2025 13:51 | NGN 600,000
+(5, 'DEBIT', 600000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'SADIQ MOHAMMAD KABIR',
+ '2025-05-13 13:51:56+01',
+ 'OPay', '250513010100683959038060', 'SUCCESSFUL',
+ 'Transfer via OPay'),
+
+-- #3 | Jun 15, 2025 10:28 | NGN 300,000
+(5, 'DEBIT', 300000.00,
+ 'MAHMOUD WADA',
+ 'SADIQ MOHAMMAD KABIR',
+ '2025-06-15 10:28:00+01',
+ 'Kuda', '090267250615092856908008670535', 'SUCCESSFUL',
+ 'hhhh'),
+
+-- #4 | Jun 20, 2025 09:10 | NGN 100,000
+(5, 'DEBIT', 100000.00,
+ 'MAHMOUD WADA',
+ 'SADIQ MOHAMMAD KABIR',
+ '2025-06-20 09:10:00+01',
+ 'Kuda', '090267250620081011878008670535', 'SUCCESSFUL',
+ 'hhhh'),
+
+-- #5 | Jun 29, 2025 10:05 | NGN 650,000
+(5, 'DEBIT', 650000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'SADIQ MOHAMMAD KABIR',
+ '2025-06-29 10:05:00+01',
+ 'ALAT', '000017250629100518378181938151', 'SUCCESSFUL',
+ 'ALAT NIP TRANSFER TO Opay'),
+
+-- #7 | Jul 07, 2025 19:27 | NGN 50,000
+(5, 'DEBIT', 50000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'SADIQ MOHAMMAD KABIR',
+ '2025-07-07 19:27:00+01',
+ 'TAJBank', '001189804070720251926360011898040707202519263600', 'SUCCESSFUL',
+ 'Transfer from TAJWay'),
+
+-- #8 | Jul 13, 2025 10:39 | NGN 500,000
+(5, 'DEBIT', 500000.00,
+ 'MAHMOUD WADA',
+ 'SADIQ MOHAMMAD KABIR',
+ '2025-07-13 10:39:00+01',
+ 'Kuda', '090267250713093902833008670535', 'SUCCESSFUL',
+ 'hhhh'),
+
+-- #10 | Aug 03, 2025 10:40 | NGN 500,000
+(5, 'DEBIT', 500000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'SADIQ MOHAMMAD KABIR',
+ '2025-08-03 10:40:19+01',
+ 'OPay', '250803010100211342105249', 'SUCCESSFUL',
+ 'Transfer via OPay'),
+
+-- #11 | Aug 03, 2025 16:40 | NGN 2,300,000
+(5, 'DEBIT', 2300000.00,
+ 'MAHMOUD WADA',
+ 'SADIQ KABIR',
+ '2025-08-03 16:40:00+01',
+ 'ALAT', '333576006793', 'SUCCESSFUL',
+ 'ALAT TRANSFER FROM MAHMOUD WADA TO SADIQ KABIR'),
+
+-- #13 | Aug 17, 2025 08:03 | NGN 1,400,000
+(5, 'DEBIT', 1400000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'SADIQ MOHAMMAD KABIR',
+ '2025-08-17 08:03:00+01',
+ 'ALAT', '000017250817080344768067891985', 'SUCCESSFUL',
+ 'ALAT NIP TRANSFER TO OPAY'),
+
+-- #14 | Aug 25, 2025 09:56 | NGN 500,000
+(5, 'DEBIT', 500000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'SADIQ MOHAMMAD KABIR',
+ '2025-08-25 09:56:00+01',
+ 'ALAT', '000017250825095656773952562582', 'SUCCESSFUL',
+ 'ALAT NIP TRANSFER TO Opay'),
+
+-- #15 | Sep 21, 2025 17:46 | NGN 300,000
+(5, 'DEBIT', 300000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'SADIQ MOHAMMAD KABIR',
+ '2025-09-21 17:46:09+01',
+ 'OPay', '250921010100268532310100', 'SUCCESSFUL',
+ 'Transfer via OPay'),
+
+-- #16 | Sep 21, 2025 23:43 | NGN 500,000
+(5, 'DEBIT', 500000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'SADIQ MOHAMMAD KABIR',
+ '2025-09-21 23:43:08+01',
+ 'OPay', '250921010100275585199695', 'SUCCESSFUL',
+ 'Transfer via OPay'),
+
+-- #17 | Sep 22, 2025 00:04 | NGN 1,000,000
+(5, 'DEBIT', 1000000.00,
+ 'MAHMOUD WADA',
+ 'SADIQ MOHAMMAD KABIR',
+ '2025-09-22 00:04:00+01',
+ 'Kuda', '090267250921230422112008670535', 'SUCCESSFUL',
+ 'hhh'),
+
+-- #18 | Oct 05, 2025 20:03 | NGN 1,000,000
+(5, 'DEBIT', 1000000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'SADIQ MOHAMMAD KABIR',
+ '2025-10-05 20:03:11+01',
+ 'OPay', '251005010100595233089160', 'SUCCESSFUL',
+ 'Transfer via OPay'),
+
+-- #19 | Oct 06, 2025 18:03 | NGN 1,000,000
+(5, 'DEBIT', 1000000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'SADIQ MOHAMMAD KABIR',
+ '2025-10-06 18:03:56+01',
+ 'OPay', '251006010100614921378770', 'SUCCESSFUL',
+ 'Transfer via OPay'),
+
+-- #20 | Oct 14, 2025 16:29 | NGN 400,000
+(5, 'DEBIT', 400000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'SADIQ MOHAMMAD KABIR',
+ '2025-10-14 16:29:07+01',
+ 'OPay', '251014010100795413543952', 'SUCCESSFUL',
+ 'Transfer via OPay');
+
+-- ============================================================
+-- VERIFY:
+-- Batch 4 row count should be 17
+-- Batch 4 total amount should be 9,800,000.00
+--
+-- SELECT COUNT(*) AS row_count, COALESCE(SUM(amount), 0) AS batch_total
+-- FROM transactions
+-- WHERE person_id = 5
+--   AND type = 'DEBIT'
+--   AND transaction_date BETWEEN '2025-05-12 00:00:00+01' AND '2025-10-14 23:59:59+01';
+--
+-- SELECT * FROM person_balance_summary WHERE person_id = 5;
+-- ============================================================

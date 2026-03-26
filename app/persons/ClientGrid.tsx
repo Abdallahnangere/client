@@ -14,11 +14,23 @@ export default function ClientGrid({ persons, summaryMap }: ClientGridProps) {
     <div className="space-y-3">
       {persons.map((person) => {
         const s = summaryMap.get(person.id);
-        const deficit = s ? parseFloat(s.deficit.toString()) : 0;
-        const surplus = s ? parseFloat(s.surplus.toString()) : 0;
-        const outflow = s ? parseFloat(s.total_outflow.toString()) : 0;
-        const inflow = s ? parseFloat(s.total_inflow.toString()) : 0;
-        const txCount = s ? parseInt(s.transaction_count.toString()) : 0;
+        const deficit = s ? parseFloat(s.deficit) : 0;
+        const surplus = s ? parseFloat(s.surplus) : 0;
+        const txCount = s ? parseInt(s.transaction_count) : 0;
+
+        // Unified color and label logic
+        let color = "var(--brand)";
+        let label = "settled";
+        let value = 0;
+        if (deficit > 0) {
+          color = "var(--red)";
+          label = "owed";
+          value = deficit;
+        } else if (surplus > 0) {
+          color = "var(--green)";
+          label = "surplus";
+          value = surplus;
+        }
 
         return (
           <div
@@ -28,13 +40,7 @@ export default function ClientGrid({ persons, summaryMap }: ClientGridProps) {
             {/* Left accent bar */}
             <div
               className="absolute left-0 top-0 bottom-0 w-0.5 rounded-l"
-              style={{
-                background: deficit > 0
-                  ? "var(--red)"
-                  : surplus > 0
-                    ? "var(--green)"
-                    : "var(--brand)",
-              }}
+              style={{ background: color }}
             />
 
             <div className="pl-5 pr-5 py-5 flex flex-col sm:flex-row gap-4">
@@ -53,7 +59,7 @@ export default function ClientGrid({ persons, summaryMap }: ClientGridProps) {
                     .map((w) => w[0])
                     .join("")
                     .slice(0, 2)}
-                </div>
+                </div
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">

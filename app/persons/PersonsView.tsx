@@ -118,35 +118,38 @@ export default function PersonsView({ persons, summaryMap }: PersonsViewProps) {
 
                   {/* Stats */}
                   {s && (
-                    <div className="flex gap-6 sm:text-right flex-shrink-0">
-                      <div>
-                        <p className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: "var(--text-3)" }}>
-                          Outflow
-                        </p>
-                        <p className="font-mono text-sm font-medium" style={{ color: "var(--red)" }}>
-                          {formatCurrency(outflow)}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: "var(--text-3)" }}>
-                          Inflow
-                        </p>
-                        <p className="font-mono text-sm font-medium" style={{ color: "var(--green)" }}>
-                          {formatCurrency(inflow)}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: "var(--text-3)" }}>
-                          {outstanding > 0 ? "Outstanding" : surplus > 0 ? "Surplus" : "Settled"}
-                        </p>
-                        <p
-                          className="font-mono text-sm font-medium"
-                          style={{ color: outstanding > 0 ? "var(--red)" : surplus > 0 ? "var(--green)" : "var(--text-3)" }}
-                        >
-                          {formatCurrency(outstanding > 0 ? outstanding : surplus)}
-                        </p>
-                      </div>
-                    </div>
+                    // Unified surplus/deficit and color logic
+                    (() => {
+                      const deficit = s ? parseFloat(s.deficit) : 0;
+                      const surplus = s ? parseFloat(s.surplus) : 0;
+                      let color = "var(--brand)";
+                      let label = "settled";
+                      let value = 0;
+                      if (deficit > 0) {
+                        color = "var(--red)";
+                        label = "owed";
+                        value = deficit;
+                      } else if (surplus > 0) {
+                        color = "var(--green)";
+                        label = "surplus";
+                        value = surplus;
+                      }
+                      return (
+                        <div className="flex gap-6 sm:text-right flex-shrink-0">
+                          <div>
+                            <p className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: "var(--text-3)" }}>
+                              {label.charAt(0).toUpperCase() + label.slice(1)}
+                            </p>
+                            <p
+                              className="font-mono text-sm font-medium"
+                              style={{ color }}
+                            >
+                              {formatCurrency(value)}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })()
                   )}
 
                   {/* Actions */}

@@ -1,0 +1,202 @@
+-- ============================================================
+-- Capital Management System
+-- Transactions Batch 3 for MUSA DANGONGOLA (person_id = 4)
+-- Transactions #1 -- #19  |  Apr 2025 -- Sep 2025
+-- All DEBIT
+-- Sources: Kuda, ALAT (Wema), OPay
+-- ============================================================
+
+INSERT INTO persons (id, full_name, phone, email, notes, created_at)
+VALUES
+(4, 'Musa Dangongola', NULL, NULL, NULL, NOW())
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO transactions
+    (person_id, type, amount, sender, receiver, transaction_date, bank, reference_number, status, note)
+VALUES
+
+-- #1 | 2025-04-14 | NGN 500,000 | Kuda -> UBA
+(4, 'DEBIT', 500000.00,
+ 'MAHMOUD WADA',
+ 'MUSA ABDULLAHI DANGONGOLA',
+ '2025-04-14 13:01:00+01',
+ 'Kuda -> UBA', '090267250414120100800008670535', 'SUCCESSFUL',
+ 'Kuda Outward Transfer to Musa Abdullahi Dangongola, UBA acc 2192846352'),
+
+-- #2 | 2025-04-17 | NGN 1,100,000 | Kuda -> UBA
+(4, 'DEBIT', 1100000.00,
+ 'MAHMOUD WADA',
+ 'MUSA ABDULLAHI DANGONGOLA',
+ '2025-04-17 11:37:00+01',
+ 'Kuda -> UBA', '090267250417103745978008670535', 'SUCCESSFUL',
+ 'Kuda Outward Transfer to Musa Abdullahi Dangongola, UBA acc 2192846352'),
+
+-- #3 | 2025-05-09 | NGN 6,050,000 | ALAT (Wema) -> UBA
+(4, 'DEBIT', 6050000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'MUSA ABDULLAHI DANGONGOLA',
+ '2025-05-09 17:33:00+01',
+ 'ALAT (Wema) -> UBA', '000017250509173317722053056079', 'SUCCESSFUL',
+ 'ALAT NIP Transfer to Musa Abdullahi Dangongola, UBA acc 2192846352'),
+
+-- #4 | 2025-05-26 | NGN 20,000,000 | ALAT (Wema) -> Moniepoint
+(4, 'DEBIT', 20000000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'MAHIR BUILDING MATERIALS',
+ '2025-05-26 11:04:00+01',
+ 'ALAT (Wema) -> Moniepoint', '000017250526110434609012358115', 'SUCCESSFUL',
+ 'ALAT NIP Transfer to Mahir Building Materials, Moniepoint acc 8232141934, Remark: MUSA ABDULLAHI DANGONGOLA'),
+
+-- #5 | 2025-06-02 | NGN 20,000,000 | ALAT (Wema) -> Moniepoint
+(4, 'DEBIT', 20000000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'MAHIR BUILDING MATERIALS',
+ '2025-06-02 12:18:00+01',
+ 'ALAT (Wema) -> Moniepoint', '000017250602121851352926332588', 'SUCCESSFUL',
+ 'ALAT NIP Transfer to Mahir Building Materials, Moniepoint acc 8232141934'),
+
+-- #6 | 2025-06-04 | NGN 2,000,000 | ALAT (Wema) -> Moniepoint
+(4, 'DEBIT', 2000000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'MAHIR BUILDING MATERIALS',
+ '2025-06-04 20:54:00+01',
+ 'ALAT (Wema) -> Moniepoint', '0000172506042054205456116237947383', 'SUCCESSFUL',
+ 'ALAT NIP Transfer to Mahir Building Materials, Moniepoint acc 8232141934'),
+
+-- #7 | 2025-06-10 | NGN 5,000,000 | ALAT (Wema) -> Moniepoint
+(4, 'DEBIT', 5000000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'MAHIR BUILDING MATERIALS',
+ '2025-06-10 15:10:00+01',
+ 'ALAT (Wema) -> Moniepoint', '0000172506101510157364671684147', 'SUCCESSFUL',
+ 'ALAT NIP Transfer to Mahir Building Materials, Moniepoint acc 8232141934'),
+
+-- #8 | 2025-06-10 | NGN 2,200,000 | ALAT (Wema) -> UBA
+(4, 'DEBIT', 2200000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'MUSA ABDULLAHI DANGONGOLA',
+ '2025-06-10 15:13:00+01',
+ 'ALAT (Wema) -> UBA', '000017250610151344472041685910', 'SUCCESSFUL',
+ 'ALAT NIP Transfer to Musa Abdullahi Dangongola, UBA acc 2192846352'),
+
+-- #9 | 2025-06-12 | NGN 2,500,000 | ALAT (Wema) -> UBA
+(4, 'DEBIT', 2500000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'MUSA ABDULLAHI DANGONGOLA',
+ '2025-06-12 14:49:00+01',
+ 'ALAT (Wema) -> UBA', '0000172506121444909900142695765', 'SUCCESSFUL',
+ 'ALAT NIP Transfer to Musa Abdullahi Dangongola, UBA acc 2192846352'),
+
+-- #10 | 2025-06-12 | NGN 2,500,000 | ALAT (Wema) -> UBA
+(4, 'DEBIT', 2500000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'MUSA ABDULLAHI DANGONGOLA',
+ '2025-06-12 16:11:00+01',
+ 'ALAT (Wema) -> UBA', '000017250612161140541761719988', 'SUCCESSFUL',
+ 'ALAT NIP Transfer to Musa Abdullahi Dangongola, UBA acc 2192846352'),
+
+-- #11 | 2025-06-17 | NGN 2,200,000 | ALAT (Wema) -> UBA
+(4, 'DEBIT', 2200000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'MUSA ABDULLAHI DANGONGOLA',
+ '2025-06-17 14:20:00+01',
+ 'ALAT (Wema) -> UBA', '000017250617142035760775081153', 'SUCCESSFUL',
+ 'ALAT NIP Transfer to Musa Abdullahi Dangongola, UBA acc 2192846352'),
+
+-- #12 | 2025-06-20 | NGN 10,000,000 | ALAT (Wema) -> GTBank
+(4, 'DEBIT', 10000000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'DANGONGOLA MUSA ABDULLAHI',
+ '2025-06-20 15:05:00+01',
+ 'ALAT (Wema) -> GTBank', '000017250620150550470056646685', 'SUCCESSFUL',
+ 'ALAT NIP Transfer to Dangongola Musa Abdullahi, GTBank acc 0718094154'),
+
+-- #13 | 2025-06-24 | NGN 2,200,000 | ALAT (Wema) -> Moniepoint
+(4, 'DEBIT', 2200000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'ZAMZAM BLOCK ENTERPRISES - ZAM ZAM ENTERPRISE',
+ '2025-06-24 14:42:00+01',
+ 'ALAT (Wema) -> Moniepoint', '000017250624144220958488488813', 'SUCCESSFUL',
+ 'ALAT NIP Transfer to Zamzam Block Enterprises, Moniepoint acc 4707869589'),
+
+-- #14 | 2025-08-08 | NGN 3,000,000 | ALAT (Wema) -> Moniepoint
+(4, 'DEBIT', 3000000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'ZAMZAM BLOCK ENTERPRISES - ZAM ZAM ENTERPRISE',
+ '2025-08-08 17:20:00+01',
+ 'ALAT (Wema) -> Moniepoint', '000017250808172027779433857469', 'SUCCESSFUL',
+ 'ALAT NIP Transfer to Zamzam Block Enterprises, Moniepoint acc 4707869589'),
+
+-- #15 | 2025-08-12 | NGN 5,200,000 | ALAT (Wema) -> Moniepoint
+(4, 'DEBIT', 5200000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'ZAMZAM BLOCK ENTERPRISES - ZAM ZAM ENTERPRISE',
+ '2025-08-12 18:21:00+01',
+ 'ALAT (Wema) -> Moniepoint', '00001725081218212157782615771778', 'SUCCESSFUL',
+ 'ALAT NIP Transfer to Zamzam Block Enterprises, Moniepoint acc 4707869589'),
+
+-- #16 | 2025-08-17 | NGN 8,650,000 | ALAT (Wema) -> Moniepoint
+(4, 'DEBIT', 8650000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'ZAMZAM BLOCK ENTERPRISES - ZAM ZAM ENTERPRISE',
+ '2025-08-17 06:24:00+01',
+ 'ALAT (Wema) -> Moniepoint', '000017250817062441050557873354', 'SUCCESSFUL',
+ 'ALAT NIP Transfer to Zamzam Block Enterprises, Moniepoint acc 4707869589'),
+
+-- #17 | 2025-08-19 | NGN 100,000 | ALAT (Wema) -> Moniepoint
+(4, 'DEBIT', 100000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'ZAMZAM BLOCK ENTERPRISES - ZAM ZAM ENTERPRISE',
+ '2025-08-19 11:54:00+01',
+ 'ALAT (Wema) -> Moniepoint', '000017250819115441740688850912', 'SUCCESSFUL',
+ 'ALAT NIP Transfer to Zamzam Block Enterprises, Moniepoint acc 4707869589'),
+
+-- #18 | 2025-08-22 | NGN 2,100,000 | ALAT (Wema) -> Moniepoint
+(4, 'DEBIT', 2100000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'ZAMZAM BLOCK ENTERPRISES - ZAM ZAM ENTERPRISE',
+ '2025-08-22 17:00:00+01',
+ 'ALAT (Wema) -> Moniepoint', '000017250822170023007721472813', 'SUCCESSFUL',
+ 'ALAT NIP Transfer to Zamzam Block Enterprises, Moniepoint acc 4707869589'),
+
+-- #19 | 2025-09-06 | NGN 2,200,000 | OPay -> Moniepoint
+(4, 'DEBIT', 2200000.00,
+ 'MAHMOUD IBRAHIM WADA',
+ 'ZAMZAM BLOCK ENTERPRISES - ZAM ZAM ENTERPRISE',
+ '2025-09-06 11:40:56+01',
+ 'OPay -> Moniepoint', '250906020100931537478657', 'SUCCESSFUL',
+ 'OPay Transfer to Zamzam Block Enterprises, Moniepoint acc 4707869589, Session: APT00003250906104059140514265432');
+
+-- ============================================================
+-- VERIFY:
+-- Batch 3 row count should be 19
+-- Batch 3 total amount should be 97,500,000.00
+--
+-- SELECT COUNT(*) AS row_count, COALESCE(SUM(amount), 0) AS batch_total
+-- FROM transactions
+-- WHERE person_id = 4
+--   AND type = 'DEBIT'
+--   AND reference_number IN (
+--     '090267250414120100800008670535',
+--     '090267250417103745978008670535',
+--     '000017250509173317722053056079',
+--     '000017250526110434609012358115',
+--     '000017250602121851352926332588',
+--     '0000172506042054205456116237947383',
+--     '0000172506101510157364671684147',
+--     '000017250610151344472041685910',
+--     '0000172506121444909900142695765',
+--     '000017250612161140541761719988',
+--     '000017250617142035760775081153',
+--     '000017250620150550470056646685',
+--     '000017250624144220958488488813',
+--     '000017250808172027779433857469',
+--     '00001725081218212157782615771778',
+--     '000017250817062441050557873354',
+--     '000017250819115441740688850912',
+--     '000017250822170023007721472813',
+--     '250906020100931537478657'
+--   );
+--
+-- SELECT * FROM person_balance_summary WHERE person_id = 4;
+-- ============================================================
