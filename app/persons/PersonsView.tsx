@@ -125,11 +125,11 @@ export default function PersonsView({ persons, summaryMap }: PersonsViewProps) {
                       let value = 0;
                       if (deficit > 0) {
                         color = "var(--red)";
-                        label = "owed";
+                        label = "deficit";
                         value = deficit;
                       } else if (surplus > 0) {
                         color = "var(--green)";
-                        label = "surplus";
+                        label = "profit";
                         value = surplus;
                       }
                       return (

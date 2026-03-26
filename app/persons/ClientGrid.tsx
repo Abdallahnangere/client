@@ -24,11 +24,11 @@ export default function ClientGrid({ persons, summaryMap }: ClientGridProps) {
         let value = 0;
         if (deficit > 0) {
           color = "var(--red)";
-          label = "owed";
+          label = "deficit";
           value = deficit;
         } else if (surplus > 0) {
           color = "var(--green)";
-          label = "surplus";
+          label = "profit";
           value = surplus;
         }
 
@@ -185,7 +185,7 @@ export default function ClientGrid({ persons, summaryMap }: ClientGridProps) {
                       className="text-[10px] font-semibold tracking-widest uppercase mb-1"
                       style={{ color: "var(--text-3)" }}
                     >
-                      {deficit > 0 ? "Owed" : "Surplus"}
+                      {deficit > 0 ? "Deficit" : "Profit"}
                     </p>
                     <p
                       className="font-mono text-sm font-medium"

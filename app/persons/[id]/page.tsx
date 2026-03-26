@@ -109,7 +109,7 @@ export default async function PersonDetailPage({
                 style={{ borderLeft: "2px solid " + (deficit > 0 ? "var(--red-border)" : surplus > 0 ? "var(--green-border)" : "var(--border)") }}
               >
                 <p className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: "var(--text-3)" }}>
-                  {deficit > 0 ? "Deficit" : surplus > 0 ? "Surplus" : "Settled"}
+                  {deficit > 0 ? "Deficit" : surplus > 0 ? "Profit" : "Settled"}
                 </p>
                 <p
                   className="font-mono text-lg font-medium"
@@ -118,7 +118,7 @@ export default async function PersonDetailPage({
                   {formatCurrency(deficit > 0 ? deficit : surplus)}
                 </p>
                 <p className="text-xs" style={{ color: "var(--text-3)" }}>
-                  {deficit > 0 ? "fund owes client" : surplus > 0 ? "fund surplus" : "no outstanding"}
+                  {deficit > 0 ? "client deficit (fund owes client)" : surplus > 0 ? "client profit" : "balanced"}
                 </p>
               </div>
             </div>

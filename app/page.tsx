@@ -13,8 +13,9 @@ export default async function DashboardPage() {
     getPersonBalanceSummaries(),
   ]);
 
-  const netBalance = parseFloat(stats.total_inflow) - parseFloat(stats.total_outflow);
+  const netBalance = parseFloat(stats.total_outflow) - parseFloat(stats.total_inflow);
   const isNet = netBalance >= 0;
+
 
   return (
     <div className="min-h-screen p-6 lg:p-10">
@@ -68,7 +69,7 @@ export default async function DashboardPage() {
             {formatCurrency(Math.abs(netBalance))}
           </p>
           <p className="text-[11px] mt-1" style={{ color: "var(--text-3)" }}>
-            {isNet ? "fund surplus" : "fund deficit"}
+            {isNet ? "profit" : "deficit"}
           </p>
         </div>
 
@@ -227,7 +228,7 @@ export default async function DashboardPage() {
                           {deficit > 0 ? "−" : "+"}{formatCurrency(deficit > 0 ? deficit : parseFloat(s.surplus))}
                         </p>
                         <p className="text-[10px]" style={{ color: "var(--text-3)" }}>
-                          {deficit > 0 ? "owed" : "surplus"}
+                          {deficit > 0 ? "deficit" : "profit"}
                         </p>
                       </div>
                     </div>
