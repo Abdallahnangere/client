@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -42,11 +42,25 @@ const navItems = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
     return pathname.startsWith(href);
+  };
+
+  const handleLogout = async () => {
+    setLoggingOut(true);
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+      router.push("/login");
+      router.refresh();
+    } catch (error) {
+      console.error("Logout failed:", error);
+      setLoggingOut(false);
+    }
   };
 
   return (
@@ -147,9 +161,27 @@ export default function Sidebar() {
 
         {/* Footer */}
         <div className="px-5 py-4" style={{ borderTop: "1px solid var(--sb-border)" }}>
-          <p className="text-[9px] font-semibold tracking-widest uppercase" style={{ color: "var(--sb-text)", opacity: .5 }}>
+          <p className="text-[9px] font-semibold tracking-widest uppercase mb-3" style={{ color: "var(--sb-text)", opacity: .5 }}>
             Confidential · Restricted Access
           </p>
+          <button
+            onClick={handleLogout}
+            disabled={loggingOut}
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-150"
+            style={{
+              background: "rgba(239, 68, 68, 0.1)",
+              color: "var(--sb-text-2)",
+              border: "1px solid rgba(239, 68, 68, 0.2)",
+              opacity: loggingOut ? 0.6 : 1,
+              cursor: loggingOut ? "not-allowed" : "pointer",
+            }}
+            title="Sign out from the system"
+          >
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M10 4L14 8M14 8L10 12M14 8H6.5C4.567 8 3 9.567 3 11.5V12" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            {loggingOut ? "Logging out..." : "Logout"}
+          </button>
         </div>
       </aside>
     </>
