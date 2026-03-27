@@ -55,8 +55,8 @@ export default function PersonsView({ persons, summaryMap }: PersonsViewProps) {
             const s = summaryMap[person.id];
             const inflow = s ? parseFloat(s.total_inflow) : 0;
             const outflow = s ? parseFloat(s.total_outflow) : 0;
-            const deficit = Math.max(inflow - outflow, 0);
-            const surplus = Math.max(outflow - inflow, 0);
+            const debts = Math.max(inflow - outflow, 0);
+            const overpayment = Math.max(outflow - inflow, 0);
             const txCount = s ? parseInt(String(s.transaction_count)) : 0;
 
             // Color, label, and context label logic (client perspective)
@@ -64,16 +64,16 @@ export default function PersonsView({ persons, summaryMap }: PersonsViewProps) {
             let label = "Settled";
             let value = 0;
             let contextLabel = "balanced";
-            if (deficit > 0) {
+            if (debts > 0) {
               color = "var(--red)";
-              label = "Deficit";
-              value = deficit;
-              contextLabel = "client deficit (fund owes client)";
-            } else if (surplus > 0) {
+              label = "Debts";
+              value = debts;
+              contextLabel = "fund owes client";
+            } else if (overpayment > 0) {
               color = "var(--green)";
-              label = "Profit";
-              value = surplus;
-              contextLabel = "client profit";
+              label = "Overpayment";
+              value = overpayment;
+              contextLabel = "client owes fund";
             }
 
             return (

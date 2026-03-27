@@ -26,8 +26,8 @@ export default async function PersonDetailPage({
 
   const inflow = summary ? parseFloat(String(summary.total_inflow)) : 0;
   const outflow = summary ? parseFloat(String(summary.total_outflow)) : 0;
-  const deficit = Math.max(inflow - outflow, 0);
-  const surplus = Math.max(outflow - inflow, 0);
+  const debts = Math.max(inflow - outflow, 0); // what fund owes client
+  const overpayment = Math.max(outflow - inflow, 0); // what client owes fund
 
   return (
     <div className="min-h-screen p-6 lg:p-10">
@@ -106,19 +106,36 @@ export default async function PersonDetailPage({
               </div>
               <div
                 className="text-center lg:text-right px-4 py-0 rounded-lg"
-                style={{ borderLeft: "2px solid " + (deficit > 0 ? "var(--red-border)" : surplus > 0 ? "var(--green-border)" : "var(--border)") }}
+                style={{ borderLeft: "2px solid " + (debts > 0 ? "var(--red-border)" : overpayment > 0 ? "var(--green-border)" : "var(--border)") }}
               >
                 <p className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: "var(--text-3)" }}>
-                  {deficit > 0 ? "Deficit" : surplus > 0 ? "Profit" : "Settled"}
+                  Debts
                 </p>
                 <p
                   className="font-mono text-lg font-medium"
-                  style={{ color: deficit > 0 ? "var(--red)" : surplus > 0 ? "var(--green)" : "var(--text-2)" }}
+                  style={{ color: debts > 0 ? "var(--red)" : "var(--text-2)" }}
                 >
-                  {formatCurrency(deficit > 0 ? deficit : surplus)}
+                  {formatCurrency(debts)}
                 </p>
                 <p className="text-xs" style={{ color: "var(--text-3)" }}>
-                  {deficit > 0 ? "client deficit (fund owes client)" : surplus > 0 ? "client profit" : "balanced"}
+                  {debts > 0 ? "fund owes client" : "none"}
+                </p>
+              </div>
+              <div
+                className="text-center lg:text-right px-4 py-0 rounded-lg"
+                style={{ borderLeft: "2px solid " + (overpayment > 0 ? "var(--green-border)" : "var(--border)") }}
+              >
+                <p className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: "var(--text-3)" }}>
+                  Overpayment
+                </p>
+                <p
+                  className="font-mono text-lg font-medium"
+                  style={{ color: overpayment > 0 ? "var(--green)" : "var(--text-2)" }}
+                >
+                  {formatCurrency(overpayment)}
+                </p>
+                <p className="text-xs" style={{ color: "var(--text-3)" }}>
+                  {overpayment > 0 ? "client owes fund" : "none"}
                 </p>
               </div>
             </div>

@@ -15,7 +15,7 @@ export default async function SummaryPage() {
     const outflow = parseFloat(r.total_outflow);
     return s + Math.max(inflow - outflow, 0);
   }, 0);
-  const totalSurplus = summaries.reduce((s, r) => {
+  const totalOverpayment = summaries.reduce((s, r) => {
     const inflow = parseFloat(r.total_inflow);
     const outflow = parseFloat(r.total_outflow);
     return s + Math.max(outflow - inflow, 0);
@@ -111,7 +111,7 @@ export default async function SummaryPage() {
                 <th style={{ textAlign: "right" }}>Credit (₦)</th>
                 <th style={{ textAlign: "right" }}>Debit (₦)</th>
                 <th style={{ textAlign: "right" }}>Deficit (₦)</th>
-                <th style={{ textAlign: "right" }}>Surplus (₦)</th>
+                <th style={{ textAlign: "right" }}>Overpayment (₦)</th>
                 <th style={{ textAlign: "center" }}>Txns</th>
                 <th></th>
               </tr>
@@ -128,7 +128,7 @@ export default async function SummaryPage() {
                   const inflow = parseFloat(s.total_inflow);
                   const outflow = parseFloat(s.total_outflow);
                   const deficit = Math.max(inflow - outflow, 0);
-                  const surplus = Math.max(outflow - inflow, 0);
+                  const overpayment = Math.max(outflow - inflow, 0);
                   return (
                     <tr key={s.person_id}>
                       <td>
@@ -169,9 +169,9 @@ export default async function SummaryPage() {
                         )}
                       </td>
                       <td style={{ textAlign: "right" }}>
-                        {surplus > 0 ? (
+                        {overpayment > 0 ? (
                           <span className="font-mono text-sm font-medium" style={{ color: "var(--green)" }}>
-                            {formatCurrency(surplus)}
+                            {formatCurrency(overpayment)}
                           </span>
                         ) : (
                           <span className="font-mono text-xs" style={{ color: "var(--text-3)" }}>—</span>
@@ -223,7 +223,7 @@ export default async function SummaryPage() {
                   </td>
                   <td style={{ textAlign: "right" }}>
                     <span className="font-mono text-sm font-semibold" style={{ color: "var(--green)" }}>
-                      {formatCurrency(totalSurplus)}
+                      {formatCurrency(totalOverpayment)}
                     </span>
                   </td>
                   <td></td>
