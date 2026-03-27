@@ -13,8 +13,14 @@ export default async function DashboardPage() {
     getPersonBalanceSummaries(),
   ]);
 
-  const netBalance = parseFloat(stats.total_outflow) - parseFloat(stats.total_inflow);
-  const isNet = netBalance >= 0;
+  // Net position = sum of all client deficits (what fund owes)
+  const netPosition = summaries.reduce((total, s) => {
+    const inflow = parseFloat(s.total_inflow);
+    const outflow = parseFloat(s.total_outflow);
+    const deficit = Math.max(inflow - outflow, 0);
+    return total + deficit;
+  }, 0);
+  const hasDeficit = netPosition > 0;
 
 
   return (
@@ -58,18 +64,18 @@ export default async function DashboardPage() {
         </div>
 
         {/* Net Position */}
-        <div className={`stat-card ${isNet ? "stat-card-green" : "stat-card-red"}`}>
+        <div className={`stat-card ${hasDeficit ? "stat-card-red" : "stat-card-gold"}`}>
           <p className="text-[10px] font-semibold tracking-widest uppercase mb-2" style={{ color: "var(--text-3)" }}>
             Net Position
           </p>
           <p
             className="font-mono text-lg font-medium"
-            style={{ color: isNet ? "var(--green)" : "var(--red)" }}
+            style={{ color: hasDeficit ? "var(--red)" : "var(--brand)" }}
           >
-            {formatCurrency(Math.abs(netBalance))}
+            {formatCurrency(netPosition)}
           </p>
           <p className="text-[11px] mt-1" style={{ color: "var(--text-3)" }}>
-            {isNet ? "profit" : "deficit"}
+            {hasDeficit ? "fund owes clients" : "settled"}
           </p>
         </div>
 
