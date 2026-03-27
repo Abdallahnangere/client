@@ -58,18 +58,17 @@ export default async function LedgerPage() {
           <p className="text-xs mt-0.5" style={{ color: "var(--text-3)" }}>{debitTx.length} debits</p>
         </div>
         {(() => {
-          const net = parseFloat(String(stats.total_inflow)) - parseFloat(String(stats.total_outflow));
-          const isPos = net >= 0;
+          const debt = Math.max(parseFloat(String(stats.total_inflow)) - parseFloat(String(stats.total_outflow)), 0);
           return (
-            <div className={"stat-card " + (isPos ? "stat-card-green" : "stat-card-red")}>
-              <p className="text-xs font-semibold tracking-widest uppercase mb-1.5" style={{ color: "var(--text-3)" }}>
-                Net Position
+            <div className="stat-card stat-card-red">
+              <p className="text-xs font-semibold tracking-widest uppercase mb-1.5" style={{ color: "var(--red)" }}>
+                Debt
               </p>
-              <p className="font-mono text-lg font-medium" style={{ color: isPos ? "var(--green)" : "var(--red)" }}>
-                {formatCurrency(Math.abs(net))}
+              <p className="font-mono text-lg font-medium" style={{ color: "var(--red)" }}>
+                {formatCurrency(debt)}
               </p>
               <p className="text-xs mt-0.5" style={{ color: "var(--text-3)" }}>
-                {isPos ? "fund surplus" : "fund deficit"}
+                {debt > 0 ? "what fund owes clients" : "none"}
               </p>
             </div>
           );

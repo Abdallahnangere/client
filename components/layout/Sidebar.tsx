@@ -38,6 +38,16 @@ const navItems = [
       </svg>
     ),
   },
+  {
+    href: "/settings",
+    label: "Settings",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <circle cx="8" cy="8" r="2.5" stroke="currentColor" strokeWidth="1.3" />
+        <path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.4 1.4M11.6 11.6l1.4 1.4M3 13l1.4-1.4M11.6 4.4l1.4-1.4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+      </svg>
+    ),
+  },
 ];
 
 export default function Sidebar() {
