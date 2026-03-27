@@ -131,21 +131,45 @@ export default function PersonsView({ persons, summaryMap }: PersonsViewProps) {
                     </div>
                   </div>
 
-                  {/* Stats */}
+                  {/* Stats - Show all 4 metrics with mutual exclusivity */}
                   {s && (
-                    <div className="flex gap-6 sm:text-right flex-shrink-0">
-                      <div>
-                        <p className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: "var(--text-3)" }}>
-                          {label}
+                    <div className="flex gap-3 sm:gap-4 sm:text-right flex-shrink-0 flex-wrap sm:flex-nowrap">
+                      <div className="text-center sm:text-right">
+                        <p className="text-[10px] font-semibold tracking-widest uppercase mb-1" style={{ color: "var(--text-3)" }}>
+                          Inflow
                         </p>
-                        <p
-                          className="font-mono text-sm font-medium"
-                          style={{ color }}
-                        >
-                          {formatCurrency(value)}
+                        <p className="font-mono text-xs font-medium" style={{ color: "var(--green)" }}>
+                          {formatCurrency(inflow)}
                         </p>
-                        <p className="text-xs mt-0.5" style={{ color: "var(--text-3)" }}>{contextLabel}</p>
                       </div>
+                      <div className="text-center sm:text-right">
+                        <p className="text-[10px] font-semibold tracking-widest uppercase mb-1" style={{ color: "var(--text-3)" }}>
+                          Outflow
+                        </p>
+                        <p className="font-mono text-xs font-medium" style={{ color: "var(--red)" }}>
+                          {formatCurrency(outflow)}
+                        </p>
+                      </div>
+                      {debts > 0 && (
+                        <div className="text-center sm:text-right">
+                          <p className="text-[10px] font-semibold tracking-widest uppercase mb-1" style={{ color: "var(--text-3)" }}>
+                            Debt
+                          </p>
+                          <p className="font-mono text-xs font-medium" style={{ color: "var(--red)" }}>
+                            {formatCurrency(debts)}
+                          </p>
+                        </div>
+                      )}
+                      {overpayment > 0 && (
+                        <div className="text-center sm:text-right">
+                          <p className="text-[10px] font-semibold tracking-widest uppercase mb-1" style={{ color: "var(--text-3)" }}>
+                            Overpayment
+                          </p>
+                          <p className="font-mono text-xs font-medium" style={{ color: "var(--green)" }}>
+                            {formatCurrency(overpayment)}
+                          </p>
+                        </div>
+                      )}
                     </div>
                   )}
 

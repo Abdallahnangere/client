@@ -123,19 +123,19 @@ export default async function PersonDetailPage({
               </div>
               <div
                 className="text-center lg:text-right px-4 py-0 rounded-lg"
-                style={{ borderLeft: "2px solid " + (overpayment > 0 ? "var(--green-border)" : "var(--border)") }}
+                style={{ borderLeft: "2px solid " + (debts > 0 ? "var(--red-border)" : "var(--border)") }}
               >
                 <p className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: "var(--text-3)" }}>
-                  Overpayment
+                  Debt
                 </p>
                 <p
                   className="font-mono text-lg font-medium"
-                  style={{ color: overpayment > 0 ? "var(--green)" : "var(--text-2)" }}
+                  style={{ color: debts > 0 ? "var(--red)" : "var(--text-2)" }}
                 >
-                  {formatCurrency(overpayment)}
+                  {formatCurrency(debts)}
                 </p>
                 <p className="text-xs" style={{ color: "var(--text-3)" }}>
-                  {overpayment > 0 ? "client owes fund" : "none"}
+                  {debts > 0 ? "what fund owes clients" : "none"}
                 </p>
               </div>
             </div>

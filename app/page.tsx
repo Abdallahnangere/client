@@ -51,60 +51,7 @@ export default async function DashboardPage() {
         </p>
       </div>
 
-      {/* Top stat strip */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
-        {/* Total Inflow */}
-        <div className="stat-card stat-card-green">
-          <p className="text-[10px] font-semibold tracking-widest uppercase mb-2" style={{ color: "var(--text-3)" }}>
-            Total Inflow
-          </p>
-          <p className="font-mono text-lg font-medium" style={{ color: "var(--green)" }}>
-            {formatCurrency(stats.total_inflow)}
-          </p>
-          <p className="text-[11px] mt-1" style={{ color: "var(--text-3)" }}>received by fund</p>
-        </div>
-
-        {/* Total Outflow */}
-        <div className="stat-card stat-card-red">
-          <p className="text-[10px] font-semibold tracking-widets uppercase mb-2" style={{ color: "var(--text-3)" }}>
-            Total Outflow
-          </p>
-          <p className="font-mono text-lg font-medium" style={{ color: "var(--red)" }}>
-            {formatCurrency(stats.total_outflow)}
-          </p>
-          <p className="text-[11px] mt-1" style={{ color: "var(--text-3)" }}>disbursed from fund</p>
-        </div>
-
-        {/* Net Position */}
-        <div className={`stat-card ${hasDeficit ? "stat-card-red" : "stat-card-gold"}`}>
-          <p className="text-[10px] font-semibold tracking-widest uppercase mb-2" style={{ color: "var(--text-3)" }}>
-            Net Position
-          </p>
-          <p
-            className="font-mono text-lg font-medium"
-            style={{ color: hasDeficit ? "var(--red)" : "var(--brand)" }}
-          >
-            {formatCurrency(netPosition)}
-          </p>
-          <p className="text-[11px] mt-1" style={{ color: "var(--text-3)" }}>
-            {hasDeficit ? "fund owes clients" : "settled"}
-          </p>
-        </div>
-
-        {/* Clients */}
-        <div className="stat-card stat-card-gold">
-          <p className="text-[10px] font-semibold tracking-widest uppercase mb-2" style={{ color: "var(--text-3)" }}>
-            Active Clients
-          </p>
-          <p className="font-mono text-lg font-medium" style={{ color: "var(--brand)" }}>
-            {stats.total_persons}
-          </p>
-          <p className="text-[11px] mt-1" style={{ color: "var(--text-3)" }}>
-            {stats.total_transactions} total transactions
-          </p>
-        </div>
-      </div>
-
+      {/* Summary stat strip */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
         <div className="stat-card stat-card-gold">
           <p className="text-[10px] font-semibold tracking-widest uppercase mb-1.5" style={{ color: "var(--text-3)" }}>
