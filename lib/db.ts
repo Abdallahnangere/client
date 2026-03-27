@@ -216,3 +216,33 @@ export async function getRecentTransactions(limit = 10): Promise<(Transaction & 
     LIMIT ${limit}
   ` as unknown as Promise<(Transaction & { person_name: string })[]>;
 }
+
+// ─── Authentication ─────────────────────────────────────────────────────────
+
+export interface User {
+  id: number;
+  username: string;
+  password: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export async function getUserByUsername(username: string): Promise<User | null> {
+  const rows = await sql`
+    SELECT * FROM users WHERE username = ${username}
+  ` as unknown as User[];
+  return rows[0] || null;
+}
+
+export async function updateUserPassword(
+  username: string,
+  hashedPassword: string
+): Promise<User | null> {
+  const rows = await sql`
+    UPDATE users
+    SET password = ${hashedPassword}, updated_at = NOW()
+    WHERE username = ${username}
+    RETURNING *
+  ` as unknown as User[];
+  return rows[0] || null;
+}

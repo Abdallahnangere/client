@@ -1,24 +1,35 @@
 import { NextResponse, type NextRequest } from "next/server";
+import bcrypt from "bcrypt";
+import { getUserByUsername } from "@/lib/db";
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { password } = body;
 
-    // Get password from environment variable
-    const correctPassword = process.env.PASSWORD;
-
-    if (!correctPassword) {
+    if (!password) {
       return NextResponse.json(
-        { error: "Server configuration error" },
-        { status: 500 }
+        { error: "Password is required" },
+        { status: 400 }
       );
     }
 
-    // Validate password
-    if (password !== correctPassword) {
+    // Get the admin user from database
+    const user = await getUserByUsername("admin");
+
+    if (!user) {
       return NextResponse.json(
-        { error: "Invalid password" },
+        { error: "Invalid credentials" },
+        { status: 401 }
+      );
+    }
+
+    // Compare password with hashed password in database
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return NextResponse.json(
+        { error: "Invalid credentials" },
         { status: 401 }
       );
     }
